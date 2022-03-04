@@ -3,7 +3,6 @@
         "naumovs.color-highlight",
         "dbaeumer.vscode-eslint",
         "mhutchie.git-graph",
-        "eamodio.gitlens",
         "ecmel.vscode-html-css",
         "abusaidm.html-snippets",
         "bradlc.vscode-tailwindcss",
@@ -12,6 +11,7 @@
         "hollowtree.vue-snippets",
         "johnsoncodehk.volar",
         "ishiyama.vue-autoimport",
-        "syler.sass-indented"
+        "syler.sass-indented",
+        "esbenp.prettier-vscode"
     ]
 }
