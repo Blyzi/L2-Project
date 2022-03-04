@@ -1,0 +1,17 @@
+{
+    "recommendations": [
+        "naumovs.color-highlight",
+        "dbaeumer.vscode-eslint",
+        "mhutchie.git-graph",
+        "eamodio.gitlens",
+        "ecmel.vscode-html-css",
+        "abusaidm.html-snippets",
+        "bradlc.vscode-tailwindcss",
+        "gruntfuggly.todo-tree",
+        "abhijoybasak.nestjs-files",
+        "hollowtree.vue-snippets",
+        "johnsoncodehk.volar",
+        "ishiyama.vue-autoimport",
+        "syler.sass-indented"
+    ]
+}
