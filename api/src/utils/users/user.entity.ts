@@ -16,4 +16,7 @@ export class Users {
 
   @Property({ type: 'text' })
   email!: string;
+
+  @Property({ type: 'text' })
+  phonetel!: string;
 }
