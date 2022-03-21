@@ -1,4 +1,5 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
+import { Items } from '../items/items.entity';
 
 @Entity()
 export class Items_type {
@@ -10,4 +11,7 @@ export class Items_type {
 
   @Property({ type: 'text', length: 50 })
   rent!: boolean;
+
+  @ManyToOne()
+  item!: Items;
 }

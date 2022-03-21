@@ -18,7 +18,7 @@ export class Role {
   @Property()
   permissions!: number;
 
-  // Role belongs to user collection : 1,n role(s) belong(s) to 1,n user(s)
+  // Role belongs to Users collection : 1,n role(s) belong(s) to 1,n user(s)
   @ManyToMany(() => Users, (user) => user.role)
   user = new Collection<Users>(this);
 }
