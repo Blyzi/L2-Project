@@ -1,13 +1,24 @@
-import { Entity, Property, PrimaryKey } from '@mikro-orm/core';
+import {
+  Entity,
+  PrimaryKey,
+  Property,
+  ManyToMany,
+  Collection,
+} from '@mikro-orm/core';
+import { Users } from '../users/user.entity';
 
 @Entity()
 export class Role {
-    @PrimaryKey()
-    id_event!: number;
+  @PrimaryKey()
+  roleId: number;
 
-    @Property()
-    text!: string;
+  @Property({ type: 'text', length: 50 })
+  text!: string;
 
-    @Property()
-    permissions!: string;
+  @Property()
+  permissions!: number;
+
+  // Role belongs to Users collection : 1,n role(s) belong(s) to 1,n user(s)
+  @ManyToMany(() => Users, (user) => user.role)
+  user = new Collection<Users>(this);
 }
