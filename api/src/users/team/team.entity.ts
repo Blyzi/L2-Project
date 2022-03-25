@@ -5,7 +5,7 @@ import {
   ManyToMany,
   Collection,
 } from '@mikro-orm/core';
-import { Users } from '../users/user.entity';
+import { Users } from '../user.entity';
 
 @Entity()
 export class Team {
