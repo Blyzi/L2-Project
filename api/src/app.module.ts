@@ -1,6 +1,9 @@
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
+import { BuyablesController } from './buyables/buyables.controller';
+import { BuyablesModule } from './buyables/buyables.module';
+import { BuyablesService } from './buyables/buyables.service';
 import { EventModule } from './event/event.module';
 import { EventController } from './event/event.controller';
 import { ItemsModule } from './items/items.module';
@@ -19,6 +22,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 @Module({
   imports: [
     AuthModule,
+    BuyablesModule,
     EventModule,
     ItemsModule,
     TeamModule,
@@ -27,12 +31,19 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
   ],
   controllers: [
     AuthController,
+    BuyablesController,
     EventController,
     ItemsController,
     TeamController,
     UserController,
     AppController,
   ],
-  providers: [TeamService, UserService, AppService, AuthService],
+  providers: [
+    TeamService,
+    UserService,
+    AppService,
+    AuthService,
+    BuyablesService,
+  ],
 })
 export class AppModule {}

@@ -3,7 +3,6 @@ import {
   PrimaryKey,
   Property,
   ManyToMany,
-  OneToMany,
   Collection,
 } from '@mikro-orm/core';
 import { Users } from '../users/user.entity';
@@ -19,6 +18,9 @@ export class Buyables {
 
   @Property()
   Stock!: number;
+
+  @Property()
+  Type!: number;
 
   // Items belongs to Users collection : 1,n items(s) is bought(s) by 1,n user(s)
   @ManyToMany(() => Users, (user) => user.item)
