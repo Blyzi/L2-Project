@@ -1,12 +1,4 @@
-import {
-  Entity,
-  PrimaryKey,
-  Property,
-  ManyToMany,
-  OneToMany,
-  OneToOne,
-  Collection,
-} from '@mikro-orm/core';
+import { Property } from '@mikro-orm/core';
 
 export abstract class Person {
   @Property()
@@ -29,7 +21,4 @@ export abstract class Person {
 
   @Property()
   description!: string; // to describe the person's skills
-
-  //@OneToOne()
-  //toothbrush!: Toothbrush; exemple de relation
 }
