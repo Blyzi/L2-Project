@@ -1,6 +1,9 @@
-import { Property } from '@mikro-orm/core';
+import { Property, PrimaryKey } from '@mikro-orm/core';
 
-export abstract class Person {
+export abstract class People {
+  @PrimaryKey()
+  peopleId: number;
+
   @Property()
   name!: string;
 
