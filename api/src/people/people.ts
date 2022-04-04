@@ -21,7 +21,7 @@ export abstract class Person {
   @Property()
   birth_date!: Date;
 
-  @Property({ type: 'int' })
+  @Property({ type: 'int' }) // type à décider
   phone_number!: number;
 
   @Property()
