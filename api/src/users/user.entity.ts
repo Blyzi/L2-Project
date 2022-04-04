@@ -9,26 +9,15 @@ import { Role } from '../role/role.entity';
 import { Team } from '../team/team.entity';
 import { Event } from '../event/event.entity';
 import { Items } from '../items/items.entity';
+import { People } from '../people/people.superclass';
 
 @Entity()
-export class Users {
+export class Users extends People {
   @PrimaryKey()
   userId: number;
 
-  @Property({ type: 'text', length: 50 })
-  firstname!: string;
-
-  @Property({ type: 'text', length: 50 })
-  lastname!: string;
-
   @Property({ type: 'text' })
   password!: string;
-
-  @Property({ type: 'text' })
-  email!: string;
-
-  @Property({ type: 'text' })
-  phonetel!: string;
 
   // Users collection has Role in it : 1,n user(s) has 1,n role(s)
   @ManyToMany(() => Role)
