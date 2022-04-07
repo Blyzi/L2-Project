@@ -4,15 +4,12 @@
         :class="{ 'outline-blue-400 outline-2': isFocused }"
         @click="input.focus()"
     >
-        <div
-            class="absolute w-full h-full flex items-center"
-            :class="{ 'text-blue-400': isFocused }"
-        >
+        <div class="absolute w-full h-full flex items-center">
             <div
                 class="transition-all duration-200 rounded-full p-2"
                 :class="[
                     isFocused || modelValue.length
-                        ? 'translate-x-2 -translate-y-6 bg-white text-xs'
+                        ? 'translate-x-2 -translate-y-6 bg-white text-xs text-blue-400'
                         : 'translate-x-0 translate-y-0 text-base',
                 ]"
             >
