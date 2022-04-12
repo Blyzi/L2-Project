@@ -14,7 +14,7 @@ import { People } from '../people/people.superclass';
 @Entity()
 export class Users extends People {
   @PrimaryKey()
-  userId: number;
+  userId!: number;
 
   @Property({ type: 'text' })
   password!: string;

@@ -2,7 +2,7 @@ import { Property, PrimaryKey } from '@mikro-orm/core';
 
 export abstract class People {
   @PrimaryKey()
-  peopleId: number;
+  peopleId!: number;
 
   @Property()
   name!: string;
@@ -14,14 +14,14 @@ export abstract class People {
   mail!: string;
 
   @Property()
-  birth_date!: Date;
-
-  @Property({ type: 'int' }) // type à décider
-  phone_number!: number;
+  birthDate: Date;
 
   @Property()
-  creation_date!: Date;
+  phoneNumber: string;
 
   @Property()
-  description!: string; // to describe the person's skills
+  creationDate!: Date;
+
+  @Property()
+  description: string; // to describe the person's skills
 }

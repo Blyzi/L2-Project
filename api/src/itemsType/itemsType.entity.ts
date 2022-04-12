@@ -2,9 +2,9 @@ import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core';
 import { Items } from '../items/items.entity';
 
 @Entity()
-export class Items_type {
+export class ItemsType {
   @PrimaryKey()
-  items_typeid: number;
+  itemsTypeId: number;
 
   @Property({ type: 'text', length: 50 })
   title!: string;

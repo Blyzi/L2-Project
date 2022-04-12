@@ -11,7 +11,7 @@ import { Client } from '../client/client.entity';
 @Entity()
 export class Team {
   @PrimaryKey()
-  teamId: number;
+  teamId!: number;
 
   @Property()
   number!: number;
@@ -24,6 +24,6 @@ export class Team {
   user = new Collection<Users>(this);
 
   // Team collection has Clients in it : 1,n team(s) has 1,n client(s)
-  @ManyToMany(() => Client)
-  client = new Collection<Client>(this);
+  //@ManyToMany(() => Client)
+  //client = new Collection<Client>(this);
 }

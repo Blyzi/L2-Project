@@ -12,21 +12,29 @@ import { Client } from '../client/client.entity';
 @Entity()
 export class Event {
   @PrimaryKey()
-  eventId: number;
+  eventId!: number;
 
-  @Property({ type: 'text', length: 50 })
-  text2!: string;
+  @Property()
+  title!: string;
+  @Property()
+  description!: string;
 
-  @Property({ type: 'text', length: 50 })
-  permissions!: number;
+  @Property()
+  dateStart!: Date;
+
+  @Property()
+  dateEnd!: Date;
+
+  @Property()
+  color!: string; //TODO:Enum à faire + tard
 
   // Event collection has Users in it : 1,n event(s) has 1,n user(s) which participates in it
   @ManyToMany(() => Users)
   user = new Collection<Users>(this);
 
-  // Event collection has Users in it : 1,n event(s) has 1,n user(s) which participates in it
-  @ManyToMany(() => Client)
-  client = new Collection<Client>(this);
+  // Event collection has Client in it : 1,n event(s) has 1,n user(s) which participates in it
+  //@ManyToMany(() => Client)
+  //client = new Collection<Client>(this);
 
   // Event collection has Items in it : 1,n event(s) use(s) 1,n item(s)
   @ManyToMany(() => Items)

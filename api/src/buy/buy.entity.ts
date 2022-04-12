@@ -1,36 +1,37 @@
 import { Entity, ManyToOne, PrimaryKeyType, Property } from '@mikro-orm/core';
-import { Client } from 'src/client/client.entity';
-import { Goodies } from 'src/goodies/goodies.entity';
+import { Client } from '../client/client.entity';
+import { Goodies } from '../goodies/goodies.entity';
 
 @Entity()
 export class Buy {
-  @ManyToOne({ primary: true })
-  client: Client;
+  //@ManyToOne({ primary: true })
+  //client!: Client;
 
   @ManyToOne({ primary: true })
-  goodie: Goodies;
+  goodie!: Goodies;
 
   @Property()
-  amount = 1;
+  amount: number;
 
   @Property()
-  sell_price: number;
+  sellPrice!: number;
 
   @Property()
-  sell_date: Date;
+  sellDate!: Date;
 
   [PrimaryKeyType]?: [number, number]; // this is needed for proper type checks in `FilterQuery`
 
   constructor(
-    client: Client,
+    //client: Client,
     goodie: Goodies,
-    amount = 1,
-    price,
-    sell_date
+    amount: number,
+    price: number,
+    sellDate: Date,
   ) {
-    this.client = client;
+    //this.client = client;
     this.goodie = goodie;
-    this.sell_price = price; // price at which the goodie has been sold //TODO:Remplacer par current price
-    this.sell_date = '02 / 09 / 2022', //TODO: Remplacer par current Datetime (cherche dans Postgre)
+    this.amount = amount;
+    this.sellPrice = price; // price at which the goodie has been sold //TODO:Remplacer par current price
+    this.sellDate = sellDate; //TODO: Remplacer par current Datetime (cherche dans Postgre)
   }
 }
