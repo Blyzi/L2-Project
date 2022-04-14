@@ -1,20 +1,16 @@
 <template>
-    <LoginPage></LoginPage>
+    <div class="bg-gray-50">
+        <router-view></router-view>
+        <hr />
+        <ul>
+            <li><router-link to="login">Login</router-link></li>
+            <li><router-link to="register">Register</router-link></li>
+        </ul>
+    </div>
 </template>
 
-<script setup>
-import LoginPage from './views/LoginPage.vue'
-</script>
+<script setup></script>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
-
-#app {
-    font-family: 'Roboto', Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-}
+<style lang="scss">
+@import './assets/style/main.scss';
 </style>
