@@ -33,8 +33,8 @@ export class Event {
   user = new Collection<Users>(this);
 
   // Event collection has Client in it : 1,n event(s) has 1,n user(s) which participates in it
-  //@ManyToMany(() => Client)
-  //client = new Collection<Client>(this);
+  @ManyToMany(() => Client)
+  client = new Collection<Client>(this);
 
   // Event collection has Items in it : 1,n event(s) use(s) 1,n item(s)
   @ManyToMany(() => Items)
