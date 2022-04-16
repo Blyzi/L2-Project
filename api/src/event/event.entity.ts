@@ -16,14 +16,15 @@ export class Event {
 
   @Property()
   title!: string;
+
   @Property()
   description!: string;
 
   @Property()
-  dateStart!: Date;
+  dateStart!: number;
 
   @Property()
-  dateEnd!: Date;
+  dateEnd!: number;
 
   @Property()
   color!: string; //TODO:Enum à faire + tard

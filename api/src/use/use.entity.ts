@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryKeyType, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, Property } from '@mikro-orm/core';
 import { Event } from '../event/event.entity';
 import { Items } from '../items/items.entity';
 
@@ -12,8 +12,6 @@ export class Use {
 
   @Property()
   amount!: number;
-
-  [PrimaryKeyType]?: [number, number]; // this is needed for proper type checks in `FilterQuery`
 
   constructor(event: Event, item: Items, amount: number) {
     this.event = event;

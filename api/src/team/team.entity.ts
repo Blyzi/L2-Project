@@ -20,10 +20,10 @@ export class Team {
   type!: number;
 
   // Team collection has Users in it : 1,n team(s) has 1,n user(s)
-  @ManyToMany(() => Users)
+  @ManyToMany(() => Users, (user) => user.team, { owner: true })
   user = new Collection<Users>(this);
 
   // Team collection has Clients in it : 1,n team(s) has 1,n client(s)
-  //@ManyToMany(() => Client)
-  //client = new Collection<Client>(this);
+  @ManyToMany(() => Client, (client) => client.team, { owner: true })
+  client = new Collection<Client>(this);
 }
