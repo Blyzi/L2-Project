@@ -5,8 +5,8 @@ import {
   ManyToMany,
   Collection,
 } from '@mikro-orm/core';
-import { Users } from '../users/user.entity';
-import { Items } from '../items/items.entity';
+import { User } from '../users/user.entity';
+import { Item } from '../item/item.entity';
 import { Client } from '../client/client.entity';
 
 @Entity()
@@ -30,14 +30,14 @@ export class Event {
   color!: string; //TODO:Enum à faire + tard
 
   // Event collection has Users in it : 1,n event(s) has 1,n user(s) which participates in it
-  @ManyToMany(() => Users)
-  user = new Collection<Users>(this);
+  @ManyToMany(() => User, (user) => user.events, { owner: true })
+  users = new Collection<User>(this);
 
   // Event collection has Client in it : 1,n event(s) has 1,n user(s) which participates in it
-  @ManyToMany(() => Client)
-  client = new Collection<Client>(this);
+  @ManyToMany(() => Client, (client) => client.events, { owner: true })
+  clients = new Collection<Client>(this);
 
   // Event collection has Items in it : 1,n event(s) use(s) 1,n item(s)
-  @ManyToMany(() => Items)
-  item = new Collection<Items>(this);
+  @ManyToMany(() => Item, (item) => item.events, { owner: true })
+  items = new Collection<Item>(this);
 }

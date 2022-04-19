@@ -1,4 +1,4 @@
-import { ItemsService } from './items.service';
+import { ItemsService } from './item.service';
 import { Module } from '@nestjs/common';
 
 @Module({

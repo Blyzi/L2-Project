@@ -1,44 +1,37 @@
-import { PrimaryKey, Property, DateType } from '@mikro-orm/core';
-
+import { PrimaryKey, Property } from '@mikro-orm/core';
+import { CreatePeopleDto } from './dto';
 export abstract class People {
   @PrimaryKey()
-  idPeople!: number;
+  peopleId: number;
 
   @Property()
-  name!: string;
+  firstName!: string;
 
   @Property()
-  surname!: string;
+  lastName!: string;
 
   @Property()
   mail!: string;
 
-  @Property({ type: DateType })
-  birthDate: Date;
+  @Property()
+  birthDate?: Date;
 
   @Property()
-  phoneNumber: string;
+  phoneNumber?: string;
 
   @Property()
-  creationDate!: number;
+  creationDate = new Date();
 
   @Property({ type: 'text' })
-  description: string; // to describe the person's skills
+  description?: string; // to describe the person's skills
 
-  constructor(
-    name: string,
-    surname: string,
-    mail: string,
-    birthDate: Date,
-    phoneNumber: string,
-    description: string,
-  ) {
-    this.name = name;
-    this.surname = surname;
-    this.mail = mail;
-    this.birthDate = birthDate;
-    this.phoneNumber = phoneNumber;
-    this.creationDate = Date.now();
-    this.description = description;
+  constructor(dto: CreatePeopleDto) {
+    this.firstName = dto.firstname;
+    this.lastName = dto.lastname;
+    this.mail = dto.mail;
+    this.birthDate = dto.birthDate;
+    this.phoneNumber = dto.phoneNumber;
+    this.description = dto.description;
+    this.creationDate = new Date();
   }
 }

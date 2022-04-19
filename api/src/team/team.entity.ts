@@ -5,7 +5,7 @@ import {
   ManyToMany,
   Collection,
 } from '@mikro-orm/core';
-import { Users } from '../users/user.entity';
+import { User } from '../users/user.entity';
 import { Client } from '../client/client.entity';
 
 @Entity()
@@ -20,10 +20,10 @@ export class Team {
   type!: number;
 
   // Team collection has Users in it : 1,n team(s) has 1,n user(s)
-  @ManyToMany(() => Users, (user) => user.team, { owner: true })
-  user = new Collection<Users>(this);
+  @ManyToMany(() => User, (user) => user.teams, { owner: true })
+  user = new Collection<User>(this);
 
   // Team collection has Clients in it : 1,n team(s) has 1,n client(s)
-  @ManyToMany(() => Client, (client) => client.team, { owner: true })
+  @ManyToMany(() => Client, (client) => client.teams, { owner: true })
   client = new Collection<Client>(this);
 }

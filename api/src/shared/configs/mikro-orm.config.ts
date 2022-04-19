@@ -7,4 +7,5 @@ export default {
   type: 'postgresql',
   metadataProvider: TsMorphMetadataProvider,
   debug: true,
+  forceUtcTimezone: true,
 } as Options;
