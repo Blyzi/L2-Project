@@ -1,8 +1,14 @@
-/*
-https://docs.nestjs.com/controllers#controllers
-*/
+import { Body, Controller, Post } from '@nestjs/common';
+import { ItemService } from './item.service';
+import { CreateItemDto } from './dto';
+import { Item } from './item.entity';
 
-import { Controller } from '@nestjs/common';
+@Controller('item')
+export class ItemController {
+  constructor(private itemService: ItemService) {}
 
-@Controller()
-export class ItemsController {}
+  @Post('create-item')
+  create(@Body() item: CreateItemDto): Promise<Item> {
+    return this.itemService.createItem(item);
+  }
+}

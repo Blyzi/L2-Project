@@ -5,12 +5,20 @@ import {
   ManyToMany,
   Collection,
 } from '@mikro-orm/core';
-import { User } from '../users/user.entity';
+import { User } from '../user/user.entity';
 import { Item } from '../item/item.entity';
 import { Client } from '../client/client.entity';
+import { CreateEventDto } from './dto';
 
 @Entity()
 export class Event {
+  constructor(dto: CreateEventDto) {
+    this.title = dto.title;
+    this.description = dto.description;
+    this.dateStart = dto.dateStart;
+    this.dateEnd = dto.dateEnd;
+    this.color = dto.color;
+  }
   @PrimaryKey()
   eventId!: number;
 
@@ -18,16 +26,16 @@ export class Event {
   title!: string;
 
   @Property()
-  description!: string;
+  description?: string;
 
   @Property()
-  dateStart!: number;
+  dateStart!: Date;
 
   @Property()
-  dateEnd!: number;
+  dateEnd!: Date;
 
   @Property()
-  color!: string; //TODO:Enum à faire + tard
+  color!: string;
 
   // Event collection has Users in it : 1,n event(s) has 1,n user(s) which participates in it
   @ManyToMany(() => User, (user) => user.events, { owner: true })
