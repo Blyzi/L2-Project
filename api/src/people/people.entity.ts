@@ -5,10 +5,10 @@ export abstract class People {
   peopleId: number;
 
   @Property()
-  firstName!: string;
+  firstname!: string;
 
   @Property()
-  lastName!: string;
+  lastname!: string;
 
   @Property()
   mail!: string;
@@ -26,8 +26,8 @@ export abstract class People {
   description?: string; // to describe the person's skills
 
   constructor(dto: CreatePeopleDto) {
-    this.firstName = dto.firstname;
-    this.lastName = dto.lastname;
+    this.firstname = dto.firstname;
+    this.lastname = dto.lastname;
     this.mail = dto.mail;
     this.birthDate = dto.birthDate;
     this.phoneNumber = dto.phoneNumber;
