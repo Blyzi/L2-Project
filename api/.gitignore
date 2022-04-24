@@ -2,6 +2,10 @@
 /dist
 /node_modules
 
+
+#Mikro ORM Temp
+/temp
+
 # Logs
 logs
 *.log
