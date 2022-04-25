@@ -4,9 +4,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [ClientModule, MikroOrmModule.forRoot(), UserModule],
+  imports: [MikroOrmModule.forRoot(), AuthModule, UserModule, ClientModule],
   controllers: [AppController],
   providers: [AppService],
 })
