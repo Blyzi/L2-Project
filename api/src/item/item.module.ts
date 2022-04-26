@@ -1,9 +1,12 @@
-import { ItemService } from './item.service';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
+import { ItemController } from './item.controller';
+import { Item } from './item.entity';
+import { ItemService } from './item.service';
 
 @Module({
-  imports: [],
-  controllers: [],
+  imports: [MikroOrmModule.forFeature({ entities: [Item] })],
+  controllers: [ItemController],
   providers: [ItemService],
 })
-export class ItemsModule {}
+export class ItemModule {}

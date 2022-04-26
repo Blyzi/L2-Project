@@ -1,7 +1,9 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { wrap } from '@mikro-orm/core';
 import { CreateEventDto } from './dto';
+import { UpdateEventDto } from './dto';
 import { Event } from './event.entity';
 
 @Injectable()
@@ -15,5 +17,44 @@ export class EventService {
     const event = new Event(dto);
     await this.eventRepository.persistAndFlush(event);
     return event;
+  }
+
+  public async findAll(): Promise<Event[]> {
+    return this.eventRepository.findAll();
+  }
+
+  public async findOne(eventId: number): Promise<Event> {
+    try {
+      return await this.eventRepository.findOneOrFail({
+        eventId,
+      });
+    } catch {
+      throw new NotFoundException('Event not found');
+    }
+  }
+
+  public async update(eventId: number, dto: UpdateEventDto): Promise<Event> {
+    try {
+      const event = await this.eventRepository.findOneOrFail({
+        eventId,
+      });
+      wrap(event).assign(dto);
+      await this.eventRepository.flush();
+      return event;
+    } catch {
+      throw new NotFoundException('Event not found');
+    }
+  }
+
+  public async delete(eventId: number): Promise<void> {
+    try {
+      await this.eventRepository.removeAndFlush(
+        await this.eventRepository.findOneOrFail({
+          eventId,
+        }),
+      );
+    } catch {
+      throw new NotFoundException('Event not found');
+    }
   }
 }

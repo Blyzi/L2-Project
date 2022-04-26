@@ -19,6 +19,7 @@ export class Event {
     this.dateEnd = dto.dateEnd;
     this.color = dto.color;
   }
+
   @PrimaryKey()
   eventId!: number;
 
