@@ -5,5 +5,5 @@ export class UpdateTeamDto {
   @IsNotEmpty()
   @MaxLength(50)
   @IsOptional()
-  readonly name: string;
+  readonly name?: string;
 }

@@ -1,12 +1,7 @@
 import { Property, ManyToOne, PrimaryKey } from '@mikro-orm/core';
 import { ThingType } from '../thingType/thingType.entity';
-import { CreateThingDto } from './dto';
 
 export abstract class Thing {
-  constructor(dto: CreateThingDto) {
-    this.name = dto.name;
-    this.stock = dto.stock;
-  }
   @PrimaryKey()
   thingId!: number;
 
@@ -17,5 +12,17 @@ export abstract class Thing {
   stock!: number;
 
   @ManyToOne()
-  thingType: ThingType;
+  thingType?: ThingType;
+
+  constructor(createObject: {
+    name: string;
+    stock: number;
+    thingType?: ThingType;
+  }) {
+    this.name = createObject.name;
+    this.stock = createObject.stock;
+    if (typeof createObject.thingType != undefined) {
+      this.thingType = createObject.thingType;
+    }
+  }
 }

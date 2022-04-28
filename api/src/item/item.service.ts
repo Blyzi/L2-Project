@@ -1,6 +1,10 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { wrap } from '@mikro-orm/core';
 import { CreateItemDto } from './dto';
 import { UpdateItemDto } from './dto';
@@ -14,6 +18,9 @@ export class ItemService {
   ) {}
 
   public async createItem(dto: CreateItemDto): Promise<Item> {
+    if (await this.itemRepository.findOne({ name: dto.name })) {
+      throw new ConflictException('Name already used');
+    }
     const item = new Item(dto);
     await this.itemRepository.persistAndFlush(item);
     return item;

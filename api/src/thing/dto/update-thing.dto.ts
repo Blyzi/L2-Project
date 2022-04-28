@@ -10,11 +10,16 @@ export class UpdateThingDto {
   @IsNumber()
   @IsNotEmpty()
   @IsOptional()
-  readonly stock: number;
+  readonly stock?: number;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
   @IsOptional()
-  readonly name: string;
+  readonly name?: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @IsOptional()
+  readonly thingTypeId?: number;
 }

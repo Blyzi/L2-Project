@@ -32,15 +32,15 @@ export class UpdateEventDto {
   @IsNotEmpty()
   @MaxLength(100)
   @IsOptional()
-  readonly title: string;
+  readonly title?: string;
 
   @IsDate()
   @IsOptional()
-  readonly dateStart!: Date;
+  readonly dateStart?: Date;
 
   @IsDate()
   @IsOptional()
-  readonly dateEnd!: Date;
+  readonly dateEnd?: Date;
 
   @IsString()
   @IsOptional()
@@ -50,5 +50,5 @@ export class UpdateEventDto {
   @IsString()
   @IsEnum(colorEnum)
   @IsOptional()
-  readonly color = colorEnum[8]; //teal is default value
+  readonly color? = colorEnum[8]; //teal is default value
 }

@@ -11,10 +11,10 @@ export class UpdateRoleDto {
   @IsNotEmpty()
   @MaxLength(50)
   @IsOptional()
-  readonly title: string;
+  readonly title?: string;
 
   @IsNumber()
   @IsNotEmpty()
   @IsOptional()
-  permissions!: number; //TODO:mettre des contraintes aux permissions
+  permissions?: number; //TODO:mettre des contraintes aux permissions
 }

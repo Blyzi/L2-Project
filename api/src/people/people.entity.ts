@@ -2,7 +2,7 @@ import { PrimaryKey, Property } from '@mikro-orm/core';
 import { CreatePeopleDto } from './dto';
 export abstract class People {
   @PrimaryKey()
-  peopleId: number;
+  peopleId!: number;
 
   @Property()
   firstname!: string;
