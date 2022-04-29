@@ -4,5 +4,5 @@ export class CreateTeamDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
-  readonly name: string;
+  readonly name!: string;
 }

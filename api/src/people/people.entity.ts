@@ -20,7 +20,7 @@ export abstract class People {
   phoneNumber?: string;
 
   @Property()
-  creationDate = new Date();
+  creationDate: Date;
 
   @Property({ type: 'text' })
   description?: string; // to describe the person's skills

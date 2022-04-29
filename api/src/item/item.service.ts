@@ -6,22 +6,29 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { wrap } from '@mikro-orm/core';
+
+// Custom Packages
 import { CreateItemDto } from './dto';
 import { UpdateItemDto } from './dto';
 import { Item } from './item.entity';
+import { ThingTypeService } from 'src/thingType/thingType.service';
 
 @Injectable()
 export class ItemService {
   constructor(
     @InjectRepository(Item)
     private readonly itemRepository: EntityRepository<Item>,
+    private readonly thingTypeService: ThingTypeService,
   ) {}
 
   public async createItem(dto: CreateItemDto): Promise<Item> {
     if (await this.itemRepository.findOne({ name: dto.name })) {
       throw new ConflictException('Name already used');
     }
-    const item = new Item(dto);
+    const item = new Item(
+      dto,
+      await this.thingTypeService.findOne(dto.thingType),
+    );
     await this.itemRepository.persistAndFlush(item);
     return item;
   }

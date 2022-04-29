@@ -1,3 +1,4 @@
+import { ThingTypeModule } from './thingType/thingtype.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -11,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    ThingTypeModule,
     MikroOrmModule.forRoot(),
     AuthModule,
     UserModule,

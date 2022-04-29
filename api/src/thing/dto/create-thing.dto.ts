@@ -9,15 +9,15 @@ import {
 export class CreateThingDto {
   @IsNumber()
   @IsNotEmpty()
-  readonly stock: number;
+  readonly stock!: number;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
-  readonly name: string;
+  readonly name!: string;
 
   @IsNotEmpty()
   @IsNumber()
   @IsOptional()
-  readonly thingTypeId: number;
+  readonly thingType?: number;
 }
