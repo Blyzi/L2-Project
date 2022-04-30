@@ -23,7 +23,6 @@ export class ThingType {
 
   @Property()
   icon!: string;
-  //TODO: Enum of icons
 
   @OneToMany(() => Thing, (thing) => thing.thingType)
   things = new Collection<Thing>(this);

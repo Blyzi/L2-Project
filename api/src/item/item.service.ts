@@ -27,7 +27,7 @@ export class ItemService {
     }
     const item = new Item(
       dto,
-      await this.thingTypeService.findOne(dto.thingType),
+      await this.thingTypeService.findOne(dto.thingTypeId),
     );
     await this.itemRepository.persistAndFlush(item);
     return item;

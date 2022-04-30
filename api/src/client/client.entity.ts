@@ -1,4 +1,4 @@
-import { Entity, ManyToMany, Collection } from '@mikro-orm/core';
+import { Entity, OneToMany, ManyToMany, Collection } from '@mikro-orm/core';
 
 import { People } from '../people/people.entity';
 import { Team } from '../team/team.entity';

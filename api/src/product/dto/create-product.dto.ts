@@ -1,11 +1,3 @@
-import {
-  IsString,
-  IsNotEmpty,
-  IsEmail,
-  MaxLength,
-  IsDate,
-  IsPhoneNumber,
-  IsOptional,
-} from 'class-validator';
+import { CreateThingDto } from '../../thing/dto';
 
-export class CreateProductDto {}
+export class CreateProductDto extends CreateThingDto {}

@@ -19,5 +19,5 @@ export class CreateThingDto {
   @IsNotEmpty()
   @IsNumber()
   @IsOptional()
-  readonly thingType?: number;
+  readonly thingTypeId?: number;
 }

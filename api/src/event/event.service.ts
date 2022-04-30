@@ -2,6 +2,8 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { wrap } from '@mikro-orm/core';
+
+//Custom Packages
 import { CreateEventDto } from './dto';
 import { UpdateEventDto } from './dto';
 import { Event } from './event.entity';
