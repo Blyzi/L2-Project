@@ -49,4 +49,8 @@ export class UserService {
       }),
     );
   }
+
+  public async findByMail(mail: string): Promise<User> {
+    return await this.userRepository.findOne({ mail });
+  }
 }
