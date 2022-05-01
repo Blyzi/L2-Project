@@ -15,14 +15,15 @@ export class BuyService {
   constructor(
     @InjectRepository(Buy)
     private readonly buyRepository: EntityRepository<Buy>,
-    private readonly clientService: ClientService, //private readonly productService: ProductService,
+    private readonly clientService: ClientService,
+    private readonly productService: ProductService,
   ) {}
 
   public async createBuy(dto: CreateBuyDto): Promise<Buy> {
     const buy = new Buy(
       dto,
       await this.clientService.findOne(dto.clientId),
-      //await this.productService.findOne(dto.productId),
+      await this.productService.findOne(dto.productId),
     );
     await this.buyRepository.persistAndFlush(buy);
     return buy;
@@ -35,14 +36,14 @@ export class BuyService {
   public async findOne(clientId: number, productId: number): Promise<Buy> {
     return await this.buyRepository.findOneOrFail({
       client: await this.clientService.findOne(clientId),
-      //product: await this.productService.findOne(productId),
+      product: await this.productService.findOne(productId),
     });
   }
 
   public async update(dto: UpdateBuyDto, clientId, productId): Promise<Buy> {
     const buy = await this.buyRepository.findOneOrFail({
       client: await this.clientService.findOne(clientId),
-      //product: await this.productService.findOne(productId),
+      product: await this.productService.findOne(productId),
     });
     wrap(buy).assign(dto);
     await this.buyRepository.flush();
@@ -53,7 +54,7 @@ export class BuyService {
     await this.buyRepository.removeAndFlush(
       await this.buyRepository.findOneOrFail({
         client: await this.clientService.findOne(clientId),
-        //product: await this.productService.findOne(productId),
+        product: await this.productService.findOne(productId),
       }),
     );
   }

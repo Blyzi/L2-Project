@@ -7,8 +7,8 @@ import { CreateBuyDto } from './dto';
 
 @Entity()
 export class Buy {
-  /*@ManyToOne({ primary: true })
-  product!: Product;*/
+  @ManyToOne({ primary: true })
+  product!: Product;
 
   @ManyToOne({ primary: true })
   client!: Client;
@@ -22,9 +22,9 @@ export class Buy {
   @Property({ default: null })
   sellDate!: Date;
 
-  constructor(dto: CreateBuyDto, client: Client /*, product: Product*/) {
+  constructor(dto: CreateBuyDto, client: Client, product: Product) {
     this.client = client;
-    //this.product = product;
+    this.product = product;
     this.amount = dto.amount;
     this.sellPrice = dto.sellPrice;
     this.sellDate = dto.sellDate;

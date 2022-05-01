@@ -10,15 +10,15 @@ export class Use {
   @ManyToOne({ primary: true })
   event!: Event;
 
-  //@ManyToOne({ primary: true })
-  //item!: Item;
+  @ManyToOne({ primary: true })
+  item!: Item;
 
   @Property({ default: 1 })
   amount!: number;
 
-  constructor(dto: CreateUseDto, event: Event /*, item: Item*/) {
+  constructor(dto: CreateUseDto, event: Event, item: Item) {
     this.event = event;
-    //this.item = item;
+    this.item = item;
     this.amount = dto.amount;
   }
 }
