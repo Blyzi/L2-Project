@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, Property, types } from '@mikro-orm/core';
 
 //Custom Packages
 import { Product } from '../product/product.entity';
@@ -16,7 +16,7 @@ export class Buy {
   @Property({ default: 1 })
   amount!: number;
 
-  @Property({ default: null })
+  @Property({ default: null, type: types.float })
   sellPrice!: number;
 
   @Property({ default: null })
@@ -26,7 +26,7 @@ export class Buy {
     this.client = client;
     this.product = product;
     this.amount = dto.amount;
-    this.sellPrice = dto.sellPrice;
+    this.sellPrice = product.price;
     this.sellDate = dto.sellDate;
   }
 }

@@ -1,4 +1,11 @@
-import { Entity, ManyToMany, ManyToOne, Collection } from '@mikro-orm/core';
+import {
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  Collection,
+  Property,
+  types,
+} from '@mikro-orm/core';
 
 //Custom Packages
 import { Thing } from '../thing/thing.entity';
@@ -11,7 +18,11 @@ import { CreateProductDto } from './dto';
 export class Product extends Thing {
   constructor(dto: CreateProductDto) {
     super(dto);
+    this.price = dto.price;
   }
+
+  @Property({ type: types.double })
+  price!: number;
 
   @ManyToMany({ entity: () => Client, pivotEntity: () => Buy })
   clients = new Collection<Client>(this);

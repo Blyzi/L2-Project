@@ -12,11 +12,6 @@ export class CreateBuyDto {
   @IsPositive()
   readonly amount!: number;
 
-  @IsNumber()
-  @IsNotEmpty()
-  @IsPositive()
-  readonly sellPrice!: number;
-
   @IsNotEmpty()
   @IsDate()
   @IsOptional()

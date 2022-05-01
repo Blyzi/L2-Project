@@ -19,7 +19,7 @@ import { Buy } from './buy.entity';
 export class BuyController {
   constructor(private buyService: BuyService) {}
 
-  @Post('create-buy')
+  @Post()
   create(@Body() buy: CreateBuyDto): Promise<Buy> {
     return this.buyService.createBuy(buy);
   }
