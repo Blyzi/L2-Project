@@ -19,15 +19,14 @@ export class CreateBuyDto {
 
   @IsNotEmpty()
   @IsDate()
+  @IsOptional()
   readonly sellDate = new Date();
 
   @IsNotEmpty()
   @IsNumber()
-  @IsOptional()
-  readonly clientId?: number;
+  readonly clientId!: number;
 
   @IsNotEmpty()
   @IsNumber()
-  @IsOptional()
-  readonly productId?: number;
+  readonly productId!: number;
 }

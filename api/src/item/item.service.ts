@@ -1,10 +1,6 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import {
-  Injectable,
-  NotFoundException,
-  ConflictException,
-} from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { wrap } from '@mikro-orm/core';
 
 // Custom Packages
@@ -25,10 +21,12 @@ export class ItemService {
     if (await this.itemRepository.findOne({ name: dto.name })) {
       throw new ConflictException('Name already used');
     }
-    const item = new Item(
-      dto,
-      await this.thingTypeService.findOne(dto.thingTypeId),
-    );
+
+    const item = new Item(dto);
+    if (dto.thingTypeId) {
+      item.thingType = await this.thingTypeService.findOne(dto.thingTypeId);
+    }
+
     await this.itemRepository.persistAndFlush(item);
     return item;
   }
@@ -38,37 +36,29 @@ export class ItemService {
   }
 
   public async findOne(thingId: number): Promise<Item> {
-    try {
-      return await this.itemRepository.findOneOrFail({
-        thingId,
-      });
-    } catch {
-      throw new NotFoundException('Item not found');
-    }
+    return await this.itemRepository.findOneOrFail({
+      thingId,
+    });
   }
 
   public async update(thingId: number, dto: UpdateItemDto): Promise<Item> {
-    try {
-      const item = await this.itemRepository.findOneOrFail({
-        thingId,
-      });
-      wrap(item).assign(dto);
-      await this.itemRepository.flush();
-      return item;
-    } catch {
-      throw new NotFoundException('Item not found');
+    const item = await this.itemRepository.findOneOrFail({
+      thingId,
+    });
+
+    if (typeof dto.thingTypeId != undefined) {
+      item.thingType = await this.thingTypeService.findOne(dto.thingTypeId);
     }
+    wrap(item).assign(dto);
+    await this.itemRepository.flush();
+    return item;
   }
 
   public async delete(thingId: number): Promise<void> {
-    try {
-      await this.itemRepository.removeAndFlush(
-        await this.itemRepository.findOneOrFail({
-          thingId,
-        }),
-      );
-    } catch {
-      throw new NotFoundException('Item not found');
-    }
+    await this.itemRepository.removeAndFlush(
+      await this.itemRepository.findOneOrFail({
+        thingId,
+      }),
+    );
   }
 }

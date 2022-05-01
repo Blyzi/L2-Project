@@ -13,7 +13,7 @@ import { CreateThingTypeDto } from './dto';
 import { UpdateThingTypeDto } from './dto';
 import { ThingType } from './thingType.entity';
 
-@Controller('thingType')
+@Controller('thing-type')
 export class ThingTypeController {
   constructor(private thingTypeService: ThingTypeService) {}
 

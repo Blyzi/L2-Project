@@ -1,10 +1,6 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import {
-  Injectable,
-  ConflictException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { wrap } from '@mikro-orm/core';
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from './user.entity';
@@ -31,38 +27,26 @@ export class UserService {
   }
 
   public async findOne(peopleId: number): Promise<User> {
-    try {
-      return await this.userRepository.findOneOrFail({
-        peopleId,
-      });
-    } catch {
-      throw new NotFoundException('User not found');
-    }
+    return await this.userRepository.findOneOrFail({
+      peopleId,
+    });
   }
 
   public async update(peopleId: number, dto: UpdateUserDto): Promise<User> {
-    try {
-      const user = await this.userRepository.findOneOrFail({
-        peopleId,
-      });
-      wrap(user).assign(dto);
-      await user.setPassword(dto.password);
-      await this.userRepository.flush();
-      return user;
-    } catch {
-      throw new NotFoundException('User not found');
-    }
+    const user = await this.userRepository.findOneOrFail({
+      peopleId,
+    });
+    wrap(user).assign(dto);
+    await user.setPassword(dto.password);
+    await this.userRepository.flush();
+    return user;
   }
 
   public async delete(peopleId: number): Promise<void> {
-    try {
-      await this.userRepository.removeAndFlush(
-        await this.userRepository.findOneOrFail({
-          peopleId,
-        }),
-      );
-    } catch {
-      throw new NotFoundException('User not found');
-    }
+    await this.userRepository.removeAndFlush(
+      await this.userRepository.findOneOrFail({
+        peopleId,
+      }),
+    );
   }
 }

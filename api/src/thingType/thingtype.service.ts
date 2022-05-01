@@ -1,6 +1,6 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { wrap } from '@mikro-orm/core';
 import { CreateThingTypeDto } from './dto';
 import { UpdateThingTypeDto } from './dto';
@@ -24,40 +24,28 @@ export class ThingTypeService {
   }
 
   public async findOne(thingTypeId: number): Promise<ThingType> {
-    try {
-      return await this.thingTypeRepository.findOneOrFail({
-        thingTypeId,
-      });
-    } catch {
-      throw new NotFoundException('ThingType not found');
-    }
+    return await this.thingTypeRepository.findOneOrFail({
+      thingTypeId,
+    });
   }
 
   public async update(
     thingTypeId: number,
     dto: UpdateThingTypeDto,
   ): Promise<ThingType> {
-    try {
-      const thingType = await this.thingTypeRepository.findOneOrFail({
-        thingTypeId,
-      });
-      wrap(thingType).assign(dto);
-      await this.thingTypeRepository.flush();
-      return thingType;
-    } catch {
-      throw new NotFoundException('ThingType not found');
-    }
+    const thingType = await this.thingTypeRepository.findOneOrFail({
+      thingTypeId,
+    });
+    wrap(thingType).assign(dto);
+    await this.thingTypeRepository.flush();
+    return thingType;
   }
 
   public async delete(thingTypeId: number): Promise<void> {
-    try {
-      await this.thingTypeRepository.removeAndFlush(
-        await this.thingTypeRepository.findOneOrFail({
-          thingTypeId,
-        }),
-      );
-    } catch {
-      throw new NotFoundException('ThingType not found');
-    }
+    await this.thingTypeRepository.removeAndFlush(
+      await this.thingTypeRepository.findOneOrFail({
+        thingTypeId,
+      }),
+    );
   }
 }

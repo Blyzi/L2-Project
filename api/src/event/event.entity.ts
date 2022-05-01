@@ -5,6 +5,7 @@ import {
   ManyToMany,
   Collection,
 } from '@mikro-orm/core';
+import { Use } from '../use/use.entity';
 import { User } from '../user/user.entity';
 import { Item } from '../item/item.entity';
 import { Client } from '../client/client.entity';
@@ -47,6 +48,6 @@ export class Event {
   clients = new Collection<Client>(this);
 
   // Event collection has Items in it : 1,n event(s) use(s) 1,n item(s)
-  @ManyToMany(() => Item, (item) => item.events, { owner: true })
+  @ManyToMany({ entity: () => Item, pivotEntity: () => Use })
   items = new Collection<Item>(this);
 }

@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, MaxLength, IsEnum } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  MaxLength,
+  IsEnum,
+  IsOptional,
+} from 'class-validator';
 
 enum iconEnum {
   'logo1',
@@ -15,6 +21,7 @@ export class CreateThingTypeDto {
   readonly title!: string;
 
   @IsString()
+  @IsOptional()
   @IsEnum(iconEnum)
   readonly icon = iconEnum[0]; //Logo 1 is default value
 }

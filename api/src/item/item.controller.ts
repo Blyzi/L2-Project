@@ -8,6 +8,8 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
+
+// Custom Packages
 import { ItemService } from './item.service';
 import { CreateItemDto } from './dto';
 import { UpdateItemDto } from './dto';
@@ -17,7 +19,8 @@ import { Item } from './item.entity';
 export class ItemController {
   constructor(private itemService: ItemService) {}
 
-  @Post('create-item')
+  //Pour le post, pas besoin de sous endpoint
+  @Post()
   create(@Body() item: CreateItemDto): Promise<Item> {
     return this.itemService.createItem(item);
   }

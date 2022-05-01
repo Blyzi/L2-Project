@@ -16,6 +16,7 @@ import { ThingTypeService } from 'src/thingType/thingType.service';
   ],
   controllers: [ItemController],
   providers: [ItemService],
+  exports: [ItemService],
 })
 export class ItemModule {
   constructor(private readonly thingTypeService: ThingTypeService) {}

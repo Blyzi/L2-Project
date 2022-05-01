@@ -1,10 +1,6 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import {
-  Injectable,
-  ConflictException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { wrap } from '@mikro-orm/core';
 import { CreateClientDto } from './dto';
 import { UpdateClientDto } from './dto';
@@ -31,37 +27,25 @@ export class ClientService {
   }
 
   public async findOne(peopleId: number): Promise<Client> {
-    try {
-      return await this.clientRepository.findOneOrFail({
-        peopleId,
-      });
-    } catch {
-      throw new NotFoundException('Client not found');
-    }
+    return await this.clientRepository.findOneOrFail({
+      peopleId,
+    });
   }
 
   public async update(peopleId: number, dto: UpdateClientDto): Promise<Client> {
-    try {
-      const client = await this.clientRepository.findOneOrFail({
-        peopleId,
-      });
-      wrap(client).assign(dto);
-      await this.clientRepository.flush();
-      return client;
-    } catch {
-      throw new NotFoundException('Client not found');
-    }
+    const client = await this.clientRepository.findOneOrFail({
+      peopleId,
+    });
+    wrap(client).assign(dto);
+    await this.clientRepository.flush();
+    return client;
   }
 
   public async delete(peopleId: number): Promise<void> {
-    try {
-      await this.clientRepository.removeAndFlush(
-        await this.clientRepository.findOneOrFail({
-          peopleId,
-        }),
-      );
-    } catch {
-      throw new NotFoundException('Client not found');
-    }
+    await this.clientRepository.removeAndFlush(
+      await this.clientRepository.findOneOrFail({
+        peopleId,
+      }),
+    );
   }
 }

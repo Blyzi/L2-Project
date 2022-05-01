@@ -1,4 +1,3 @@
-import { ProductModule } from './product/product.module';
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 
@@ -12,11 +11,12 @@ import { ItemModule } from './item/item.module';
 import { TeamModule } from './team/team.module';
 import { BuyModule } from './buy/buy.module';
 import { ThingTypeModule } from './thingType/thingtype.module';
+import { UseModule } from './use/use.module';
+import { ProductModule } from './product/product.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ProductModule,
     MikroOrmModule.forRoot(),
     AuthModule,
     UserModule,
@@ -26,6 +26,8 @@ import { AuthModule } from './auth/auth.module';
     TeamModule,
     BuyModule,
     ThingTypeModule,
+    UseModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -16,7 +16,7 @@ export class ThingType {
   }
 
   @PrimaryKey()
-  thingTypeId: number;
+  thingTypeId!: number;
 
   @Property({ type: 'text', length: 50 })
   title!: string;

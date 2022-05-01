@@ -8,5 +8,6 @@ import { EventService } from './event.service';
   imports: [MikroOrmModule.forFeature({ entities: [Event] })],
   controllers: [EventController],
   providers: [EventService],
+  exports: [EventService],
 })
 export class EventModule {}

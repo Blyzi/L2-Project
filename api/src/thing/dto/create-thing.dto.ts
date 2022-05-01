@@ -16,7 +16,6 @@ export class CreateThingDto {
   @MaxLength(50)
   readonly name!: string;
 
-  @IsNotEmpty()
   @IsNumber()
   @IsOptional()
   readonly thingTypeId?: number;

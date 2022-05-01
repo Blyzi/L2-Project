@@ -15,11 +15,8 @@ export abstract class Thing {
   @ManyToOne()
   thingType?: ThingType;
 
-  constructor(dto: CreateThingDto, thingType?: ThingType) {
+  constructor(dto: CreateThingDto) {
     this.name = dto.name;
     this.stock = dto.stock;
-    if (thingType != undefined) {
-      this.thingType = thingType;
-    }
   }
 }

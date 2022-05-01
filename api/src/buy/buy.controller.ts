@@ -3,7 +3,7 @@ import {
   Controller,
   Post,
   Get,
-  Param,
+  Query,
   ParseIntPipe,
   Patch,
   Delete,
@@ -29,21 +29,28 @@ export class BuyController {
     return this.buyService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id', ParseIntPipe) buyId: number): Promise<Buy> {
-    return this.buyService.findOne(buyId);
+  @Get()
+  findOne(
+    @Query('idClient', ParseIntPipe) idClient: number,
+    @Query('idProduct', ParseIntPipe) idProduct: number,
+  ): Promise<Buy> {
+    return this.buyService.findOne(idClient, idProduct);
   }
 
-  @Patch(':id')
+  @Patch()
   update(
-    @Param('id', ParseIntPipe) buyId: number,
+    @Query('idClient', ParseIntPipe) idClient: number,
+    @Query('idProduct', ParseIntPipe) idProduct: number,
     @Body() buy: UpdateBuyDto,
   ): Promise<Buy> {
-    return this.buyService.update(buyId, buy);
+    return this.buyService.update(buy, idClient, idProduct);
   }
 
-  @Delete(':id')
-  delete(@Param('id', ParseIntPipe) buyId: number): Promise<void> {
-    return this.buyService.delete(buyId);
+  @Delete()
+  delete(
+    @Query('idClient', ParseIntPipe) idClient: number,
+    @Query('idProduct', ParseIntPipe) idProduct: number,
+  ): Promise<void> {
+    return this.buyService.delete(idClient, idProduct);
   }
 }

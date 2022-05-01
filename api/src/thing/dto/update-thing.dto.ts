@@ -18,7 +18,6 @@ export class UpdateThingDto {
   @IsOptional()
   readonly name?: string;
 
-  @IsNotEmpty()
   @IsNumber()
   @IsOptional()
   readonly thingTypeId?: number;

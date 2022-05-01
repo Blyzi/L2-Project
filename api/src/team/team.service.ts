@@ -1,6 +1,6 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { wrap } from '@mikro-orm/core';
 import { CreateTeamDto } from './dto';
 import { UpdateTeamDto } from './dto';
@@ -24,37 +24,25 @@ export class TeamService {
   }
 
   public async findOne(teamId: number): Promise<Team> {
-    try {
-      return await this.teamRepository.findOneOrFail({
-        teamId,
-      });
-    } catch {
-      throw new NotFoundException('Team not found');
-    }
+    return await this.teamRepository.findOneOrFail({
+      teamId,
+    });
   }
 
   public async update(teamId: number, dto: UpdateTeamDto): Promise<Team> {
-    try {
-      const team = await this.teamRepository.findOneOrFail({
-        teamId,
-      });
-      wrap(team).assign(dto);
-      await this.teamRepository.flush();
-      return team;
-    } catch {
-      throw new NotFoundException('Team not found');
-    }
+    const team = await this.teamRepository.findOneOrFail({
+      teamId,
+    });
+    wrap(team).assign(dto);
+    await this.teamRepository.flush();
+    return team;
   }
 
   public async delete(teamId: number): Promise<void> {
-    try {
-      await this.teamRepository.removeAndFlush(
-        await this.teamRepository.findOneOrFail({
-          teamId,
-        }),
-      );
-    } catch {
-      throw new NotFoundException('Team not found');
-    }
+    await this.teamRepository.removeAndFlush(
+      await this.teamRepository.findOneOrFail({
+        teamId,
+      }),
+    );
   }
 }
