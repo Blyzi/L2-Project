@@ -17,7 +17,7 @@ import { Team } from './team.entity';
 export class TeamController {
   constructor(private teamService: TeamService) {}
 
-  @Post('create-team')
+  @Post()
   create(@Body() team: CreateTeamDto): Promise<Team> {
     return this.teamService.createTeam(team);
   }

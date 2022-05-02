@@ -43,7 +43,7 @@ export class ProductService {
     const product = await this.productRepository.findOneOrFail({
       thingId,
     });
-    if (typeof dto.thingTypeId != undefined) {
+    if (dto.thingTypeId != undefined) {
       product.thingType = await this.thingTypeService.findOne(dto.thingTypeId);
     }
     wrap(product).assign(dto);

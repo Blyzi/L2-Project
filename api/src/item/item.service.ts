@@ -46,7 +46,7 @@ export class ItemService {
       thingId,
     });
 
-    if (typeof dto.thingTypeId != undefined) {
+    if (dto.thingTypeId != undefined) {
       item.thingType = await this.thingTypeService.findOne(dto.thingTypeId);
     }
     wrap(item).assign(dto);

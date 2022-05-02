@@ -17,7 +17,7 @@ import { Client } from './client.entity';
 export class ClientController {
   constructor(private clientService: ClientService) {}
 
-  @Post('register')
+  @Post()
   create(@Body() client: CreateClientDto): Promise<Client> {
     return this.clientService.createClient(client);
   }

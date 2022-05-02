@@ -19,7 +19,7 @@ import { Event } from './event.entity';
 export class EventController {
   constructor(private eventService: EventService) {}
 
-  @Post('create-event')
+  @Post('')
   create(@Body() event: CreateEventDto): Promise<Event> {
     return this.eventService.createEvent(event);
   }

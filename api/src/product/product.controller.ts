@@ -17,7 +17,7 @@ import { Product } from './product.entity';
 export class ProductController {
   constructor(private productService: ProductService) {}
 
-  @Post('create-product')
+  @Post()
   create(@Body() product: CreateProductDto): Promise<Product> {
     return this.productService.createProduct(product);
   }

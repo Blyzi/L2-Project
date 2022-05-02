@@ -17,7 +17,7 @@ import { ThingType } from './thingType.entity';
 export class ThingTypeController {
   constructor(private thingTypeService: ThingTypeService) {}
 
-  @Post('create-thing-type')
+  @Post()
   create(@Body() thingType: CreateThingTypeDto): Promise<ThingType> {
     return this.thingTypeService.createThingType(thingType);
   }

@@ -19,7 +19,7 @@ import { Use } from './use.entity';
 export class UseController {
   constructor(private useService: UseService) {}
 
-  @Post('create-use')
+  @Post()
   create(@Body() use: CreateUseDto): Promise<Use> {
     return this.useService.createUse(use);
   }

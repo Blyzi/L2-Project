@@ -19,7 +19,6 @@ import { Item } from './item.entity';
 export class ItemController {
   constructor(private itemService: ItemService) {}
 
-  //Pour le post, pas besoin de sous endpoint
   @Post()
   create(@Body() item: CreateItemDto): Promise<Item> {
     return this.itemService.createItem(item);
