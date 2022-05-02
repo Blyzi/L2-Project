@@ -1,6 +1,6 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { wrap } from '@mikro-orm/core';
 
 //Custom Packages
@@ -20,13 +20,20 @@ export class UseService {
   ) {}
 
   public async createUse(dto: CreateUseDto): Promise<Use> {
-    const use = new Use(
-      dto,
-      await this.eventService.findOne(dto.eventId),
-      await this.itemService.findOne(dto.itemId),
-    );
-    await this.useRepository.persistAndFlush(use);
-    return use;
+    if (await this.findOne(dto.eventId, dto.itemId)) {
+      throw new ConflictException('Existing Relationship, try using Update');
+    } else {
+      if (this.findOne(dto.eventId, dto.itemId)) {
+      } else {
+        const use = new Use(
+          dto,
+          await this.eventService.findOne(dto.eventId),
+          await this.itemService.findOne(dto.itemId),
+        );
+        await this.useRepository.persistAndFlush(use);
+        return use;
+      }
+    }
   }
 
   public async findAll(): Promise<Use[]> {
