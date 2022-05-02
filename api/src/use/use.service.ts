@@ -20,19 +20,35 @@ export class UseService {
   ) {}
 
   public async createUse(dto: CreateUseDto): Promise<Use> {
-    if (await this.findOne(dto.eventId, dto.itemId)) {
-      throw new ConflictException('Existing Relationship, try using Update');
-    } else {
-      if (this.findOne(dto.eventId, dto.itemId)) {
+    if ((await this.useRepository.count()) != 0) {
+      if (
+        await this.useRepository.findOne({
+          event: await this.eventService.findOne(dto.eventId),
+          item: await this.itemService.findOne(dto.itemId),
+        })
+      ) {
+        throw new ConflictException('Existing Relationship, try using Update');
       } else {
-        const use = new Use(
-          dto,
-          await this.eventService.findOne(dto.eventId),
-          await this.itemService.findOne(dto.itemId),
-        );
-        await this.useRepository.persistAndFlush(use);
-        return use;
+        if (await this.verifUse(dto)) {
+          const use = new Use(
+            dto,
+            await this.eventService.findOne(dto.eventId),
+            await this.itemService.findOne(dto.itemId),
+          );
+          await this.useRepository.persistAndFlush(use);
+          return use;
+        } else {
+          throw new ConflictException('Item Already Used by another Event');
+        }
       }
+    } else {
+      const use = new Use(
+        dto,
+        await this.eventService.findOne(dto.eventId),
+        await this.itemService.findOne(dto.itemId),
+      );
+      await this.useRepository.persistAndFlush(use);
+      return use;
     }
   }
 
@@ -47,7 +63,11 @@ export class UseService {
     });
   }
 
-  public async update(dto: UpdateUseDto, eventId, itemId): Promise<Use> {
+  public async update(
+    dto: UpdateUseDto,
+    eventId: number,
+    itemId: number,
+  ): Promise<Use> {
     const use = await this.useRepository.findOneOrFail({
       event: await this.eventService.findOne(eventId),
       item: await this.itemService.findOne(itemId),
@@ -64,5 +84,33 @@ export class UseService {
         item: await this.itemService.findOne(itemId),
       }),
     );
+  }
+
+  public async verifUse(dto: CreateUseDto): Promise<boolean> {
+    // If there already is an event using this item
+    const listUses = await this.useRepository.find(
+      { item: await this.itemService.findOne(dto.itemId) },
+      { populate: ['item'] },
+    );
+    const dateStartNewEvent = (await this.eventService.findOne(dto.eventId))
+      .dateStart;
+    const dateEndNewEvent = (await this.eventService.findOne(dto.eventId))
+      .dateEnd;
+    let verif = true;
+    for (const use of listUses) {
+      if (
+        !(
+          use.event.dateStart < dateStartNewEvent &&
+          use.event.dateEnd < dateStartNewEvent &&
+          !(
+            use.event.dateStart > dateEndNewEvent &&
+            use.event.dateEnd > dateEndNewEvent
+          )
+        )
+      ) {
+        verif = false;
+      }
+    }
+    return verif;
   }
 }

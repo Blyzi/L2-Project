@@ -25,16 +25,16 @@ export class UseController {
   }
 
   @Get()
-  findAll(): Promise<Use[]> {
-    return this.useService.findAll();
-  }
-
-  @Get()
   findOne(
     @Query('idEvent', ParseIntPipe) idEvent: number,
     @Query('idItem', ParseIntPipe) idItem: number,
   ): Promise<Use> {
     return this.useService.findOne(idEvent, idItem);
+  }
+
+  @Get()
+  findAll(): Promise<Use[]> {
+    return this.useService.findAll();
   }
 
   @Patch()
