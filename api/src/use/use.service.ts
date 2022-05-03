@@ -29,7 +29,7 @@ export class UseService {
       ) {
         throw new ConflictException('Existing Relationship, try using Update');
       } else {
-        if (await this.verifUse(dto)) {
+        if ((await this.verifUse(dto)) > dto.amount) {
           const use = new Use(
             dto,
             await this.eventService.findOne(dto.eventId),
@@ -38,7 +38,11 @@ export class UseService {
           await this.useRepository.persistAndFlush(use);
           return use;
         } else {
-          throw new ConflictException('Item Already Used by another Event');
+          throw new ConflictException(
+            'Item Already Used by another Event : only ' +
+              (await this.verifUse(dto)) +
+              ' available',
+          );
         }
       }
     } else {
@@ -72,9 +76,23 @@ export class UseService {
       event: await this.eventService.findOne(eventId),
       item: await this.itemService.findOne(itemId),
     });
-    wrap(use).assign(dto);
-    await this.useRepository.flush();
-    return use;
+    if (use.amount > dto.amount) {
+      wrap(use).assign(dto);
+      await this.useRepository.flush();
+      return use;
+    } else {
+      if ((await this.verifUse(dto)) - use.amount > dto.amount) {
+        wrap(use).assign(dto);
+        await this.useRepository.flush();
+        return use;
+      } else {
+        throw new ConflictException(
+          'Item Already Used by another Event : only ' +
+            (await this.verifUse(dto)) +
+            ' available',
+        );
+      }
+    }
   }
 
   public async delete(eventId: number, itemId: number): Promise<void> {
@@ -86,7 +104,7 @@ export class UseService {
     );
   }
 
-  public async verifUse(dto: CreateUseDto): Promise<boolean> {
+  public async verifUse(dto: CreateUseDto | UpdateUseDto): Promise<number> {
     // If there already is an event using this item
     const listUses = await this.useRepository.find(
       { item: await this.itemService.findOne(dto.itemId) },
@@ -96,7 +114,7 @@ export class UseService {
       .dateStart;
     const dateEndNewEvent = (await this.eventService.findOne(dto.eventId))
       .dateEnd;
-    let verif = true;
+    let verif = (await this.itemService.findOne(dto.itemId)).stock;
     for (const use of listUses) {
       if (
         !(
@@ -108,7 +126,7 @@ export class UseService {
           )
         )
       ) {
-        verif = false;
+        verif -= use.amount;
       }
     }
     return verif;

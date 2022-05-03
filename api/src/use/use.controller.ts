@@ -3,7 +3,7 @@ import {
   Controller,
   Post,
   Get,
-  Query,
+  Param,
   ParseIntPipe,
   Patch,
   Delete,
@@ -24,10 +24,10 @@ export class UseController {
     return this.useService.createUse(use);
   }
 
-  @Get()
+  @Get(':idEvent/:idItem')
   findOne(
-    @Query('idEvent', ParseIntPipe) idEvent: number,
-    @Query('idItem', ParseIntPipe) idItem: number,
+    @Param('idEvent', ParseIntPipe) idEvent: number,
+    @Param('idItem', ParseIntPipe) idItem: number,
   ): Promise<Use> {
     return this.useService.findOne(idEvent, idItem);
   }
@@ -37,19 +37,19 @@ export class UseController {
     return this.useService.findAll();
   }
 
-  @Patch()
+  @Patch(':idEvent/:idItem')
   update(
-    @Query('idEvent', ParseIntPipe) idEvent: number,
-    @Query('idItem', ParseIntPipe) idItem: number,
+    @Param('idEvent', ParseIntPipe) idEvent: number,
+    @Param('idItem', ParseIntPipe) idItem: number,
     @Body() use: UpdateUseDto,
   ): Promise<Use> {
     return this.useService.update(use, idEvent, idItem);
   }
 
-  @Delete()
+  @Delete(':idEvent/:idItem')
   delete(
-    @Query('idEvent', ParseIntPipe) idEvent: number,
-    @Query('idItem', ParseIntPipe) idItem: number,
+    @Param('idEvent', ParseIntPipe) idEvent: number,
+    @Param('idItem', ParseIntPipe) idItem: number,
   ): Promise<void> {
     return this.useService.delete(idEvent, idItem);
   }

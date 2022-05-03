@@ -31,6 +31,16 @@ export class EventService {
     });
   }
 
+  public async findByDate(
+    EventDateStart: Date,
+    EventDateEnd: Date,
+  ): Promise<Event> {
+    return await this.eventRepository.findOneOrFail({
+      dateStart: EventDateStart,
+      dateEnd: EventDateEnd,
+    });
+  }
+
   public async update(eventId: number, dto: UpdateEventDto): Promise<Event> {
     const event = await this.eventRepository.findOneOrFail({
       eventId,
