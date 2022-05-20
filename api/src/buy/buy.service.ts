@@ -35,9 +35,7 @@ export class BuyService {
 
       // Else if everything is good
       else {
-        console.log('test');
         const buy = new Buy(dto);
-        console.log(buy.buyId);
         buy.client = await this.clientService.findOne(dto.clientId);
         buy.product = await this.productService.findOne(dto.productId);
         buy.product.stock -= dto.amount; // a certain amount of item is sold so we remove them from the db

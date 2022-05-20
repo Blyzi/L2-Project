@@ -37,7 +37,9 @@ export class UserService {
       peopleId,
     });
     wrap(user).assign(dto);
-    await user.setPassword(dto.password);
+    if (typeof dto.password !== 'undefined') {
+      await user.setPassword(dto.password);
+    }
     await this.userRepository.flush();
     return user;
   }

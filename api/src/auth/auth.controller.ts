@@ -108,7 +108,7 @@ export class AuthController {
       );
   }
 
-  @Auth({ auth: ACTIONS.READ })
+  @Auth()
   @HttpCode(200)
   @Post('test')
   async test(@Request() req: Req): Promise<any> {

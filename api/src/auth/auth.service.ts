@@ -28,7 +28,7 @@ export class AuthService {
 
     return {
       accessToken: await this.sign(
-        { sub: user.peopleId, roles: user.roles },
+        { sub: user.peopleId, roles: user?.roles },
         this.getOptions('access'),
         loginDate.unix(),
       ),
@@ -73,7 +73,7 @@ export class AuthService {
     );
   }
 
-  private getOptions(type: 'access' | 'refresh'): any {
+  public getOptions(type: 'access' | 'refresh'): any {
     return {
       secret: config.get(`jwt.${type}Secret`),
       expiresIn: `${config.get(`jwt.${type}TokenExpirationTime`)}s`,

@@ -26,14 +26,11 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     //console.log(context.switchToHttp().getRequest());
     const request = context.switchToHttp().getRequest();
-    console.log(
-      this.reflector.get<ACTIONS[]>('permissions', context.getHandler()),
-    );
-    request.user = await this.verifyToken(request);
+    request.user = await this.verifyToken(context, request);
     return request.user !== null;
   }
 
-  private async verifyToken(request): Promise<User> {
+  private async verifyToken(context, request): Promise<User> {
     const token = request?.signedCookies?.accessToken;
     if (!token) {
       throw new ForbiddenException('Token is missing');
@@ -47,37 +44,31 @@ export class AuthGuard implements CanActivate {
     ) {
       throw new ForbiddenException('Token is invalid');
     }
-
     const payload = this.jwtService.decode(token) as { [key: string]: any };
 
     if (!payload) {
       throw new ForbiddenException('Token is invalid');
     }
 
-    const user = await this.userService.findById(payload.sub);
-    if (!user) {
-      throw new ForbiddenException('User not found');
-    } else if (user.lastLogin !== payload.iat) {
+    const user = await this.userService.findOne(payload.sub);
+    if (user.lastLogin !== payload.iat) {
       throw new ForbiddenException('User already logged in');
     }
 
-    if (!this.checkClaims(request, user.roles)) {
-      throw new ForbiddenException('User does not have permission');
+    if (!this.checkClaims(context, user.roles)) {
+      throw new ForbiddenException('User does not have permissions');
     }
-
     return user;
   }
 
-  private checkClaims(request, permissions): boolean {
-    const claims = this.reflector.get<{ key: ACTIONS }>(
-      'claims',
-      request.handler,
-    );
-    if (!claims) {
+  private checkClaims(context, permissions): boolean {
+    const claims = this.reflector.get('claims', context.handler);
+    if (claims.length === 0) {
       return true;
     }
-    return Object.keys(claims).some((key) => {
-      return permissions[key] === claims[key] || claims[key] === ACTIONS.MANAGE;
-    });
+    return Object.keys(claims).some(
+      (key) =>
+        permissions[key] === claims[key] || claims[key] === ACTIONS.MANAGE,
+    );
   }
 }
