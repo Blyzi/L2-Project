@@ -3,8 +3,8 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { config } from './shared/configs/config';
 import * as cookieParser from 'cookie-parser';
-import helmet from 'helmet';
 import * as csurf from 'csurf';
+import helmet from 'helmet';
 
 const logger = new Logger('Bootstrap');
 
@@ -13,17 +13,16 @@ async function bootstrap() {
 
   //Security
   app.use(cookieParser(config.get('cookie.secret')));
-  app.use(helmet());
   //app.use(csurf({ cookie: true }));
+  app.use(helmet());
 
-  if (config.get('api.nodeEnv') === 'prod') {
-    app.enableCors({
-      origin: config.get('websiteUrl'),
-      credentials: true,
-    });
-  }
+  app.enableCors({
+    origin: config.get('websiteUrl'),
+    credentials: true,
+  });
 
   //Validation dto
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,

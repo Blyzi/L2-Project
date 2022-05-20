@@ -15,6 +15,8 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto';
 import { config } from '../shared/configs/config';
 import { Response as Res, Request as Req, CookieOptions } from 'express';
+import { Auth } from './auth.decorator';
+import { ACTIONS } from 'src/shared/enum/Actions';
 
 @Controller('auth')
 export class AuthController {
@@ -48,7 +50,7 @@ export class AuthController {
 
     res
       .cookie(
-        'accesToken',
+        'accessToken',
         auth.accessToken,
         AuthController.cookieOption.secure(
           config.get('jwt.accessTokenExpirationTime'),
@@ -91,7 +93,7 @@ export class AuthController {
 
     res
       .cookie(
-        'accesToken',
+        'accessToken',
         auth.accessToken,
         AuthController.cookieOption.secure(
           config.get('jwt.accessTokenExpirationTime'),
@@ -106,6 +108,7 @@ export class AuthController {
       );
   }
 
+  @Auth({ auth: ACTIONS.READ })
   @HttpCode(200)
   @Post('test')
   async test(@Request() req: Req): Promise<any> {
@@ -118,7 +121,7 @@ export class AuthController {
   @Post('logout')
   async logout(@Response({ passthrough: true }) res: Res): Promise<void> {
     res
-      .clearCookie('accesToken')
+      .clearCookie('accessToken')
       .clearCookie('accessTokenExpirationTime')
       .clearCookie('refreshToken')
       .clearCookie('refreshTokenExpirationTime');
