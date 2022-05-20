@@ -5,20 +5,29 @@ import {
   OneToMany,
   Collection,
 } from '@mikro-orm/core';
-import { Thing } from '../thing/thing.entity';
+import { Product } from '../product/product.entity';
+import { Item } from '../item/item.entity';
+import { CreateThingTypeDto } from './dto';
 
 @Entity()
 export class ThingType {
+  constructor(dto: CreateThingTypeDto) {
+    this.title = dto.title;
+    this.icon = dto.icon;
+  }
+
   @PrimaryKey()
-  thingTypeId: number;
+  thingTypeId!: number;
 
   @Property({ type: 'text', length: 50 })
   title!: string;
 
   @Property()
   icon!: string;
-  //TODO: Enum of icons
 
-  @OneToMany(() => Thing, (thing) => thing.thingType)
-  things = new Collection<Thing>(this);
+  @OneToMany(() => Item, (item) => item.thingType)
+  items = new Collection<Item>(this);
+
+  @OneToMany(() => Product, (product) => product.thingType)
+  products = new Collection<Product>(this);
 }

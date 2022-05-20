@@ -1,9 +1,21 @@
-import { Entity, ManyToOne, Property } from '@mikro-orm/core';
+import {
+  Entity,
+  ManyToOne,
+  PrimaryKey,
+  Property,
+  types,
+} from '@mikro-orm/core';
+
+//Custom Packages
 import { Product } from '../product/product.entity';
 import { Client } from '../client/client.entity';
+import { CreateBuyDto } from './dto';
 
 @Entity()
 export class Buy {
+  @PrimaryKey({ autoincrement: true })
+  buyId!: number;
+
   @ManyToOne({ primary: true })
   product!: Product;
 
@@ -13,22 +25,14 @@ export class Buy {
   @Property({ default: 1 })
   amount!: number;
 
-  @Property()
+  @Property({ default: null, type: types.float })
   sellPrice!: number;
 
-  @Property()
-  sellDate!: number;
+  @Property({ default: null })
+  sellDate!: Date;
 
-  constructor(
-    //client: Client,
-    product: Product,
-    amount: number,
-    price: number,
-  ) {
-    //this.client = client;
-    this.product = product;
-    this.amount = amount;
-    this.sellPrice = price; // price at which the goodie has been sold //TODO:Remplacer par current price
-    this.sellDate = Date.now();
+  constructor(dto: CreateBuyDto) {
+    this.amount = dto.amount;
+    this.sellDate = dto.sellDate;
   }
 }

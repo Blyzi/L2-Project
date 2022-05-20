@@ -5,6 +5,7 @@ import {
   IsDate,
   IsOptional,
   IsEnum,
+  ValidateIf,
 } from 'class-validator';
 
 enum colorEnum {
@@ -35,7 +36,9 @@ export class CreateEventDto {
 
   @IsDate()
   readonly dateStart!: Date;
+
   @IsDate()
+  @ValidateIf((o) => o.dateEnd > o.dateStart)
   readonly dateEnd!: Date;
 
   @IsString()

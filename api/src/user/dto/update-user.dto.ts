@@ -6,5 +6,5 @@ export class UpdateUserDto extends UpdatePeopleDto {
   @IsNotEmpty()
   @MinLength(8)
   @IsOptional()
-  readonly password: string;
+  readonly password?: string;
 }

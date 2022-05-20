@@ -7,17 +7,19 @@ import {
 } from '@mikro-orm/core';
 import { User } from '../user/user.entity';
 import { Client } from '../client/client.entity';
+import { CreateTeamDto } from './dto';
 
 @Entity()
 export class Team {
+  constructor(dto: CreateTeamDto) {
+    this.name = dto.name;
+  }
+
   @PrimaryKey()
   teamId!: number;
 
   @Property()
-  number!: number;
-
-  @Property()
-  type!: number;
+  name!: string;
 
   // Team collection has Users in it : 1,n team(s) has 1,n user(s)
   @ManyToMany(() => User, (user) => user.teams, { owner: true })

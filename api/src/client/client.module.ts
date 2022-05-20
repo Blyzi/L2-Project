@@ -8,5 +8,6 @@ import { ClientService } from './client.service';
   imports: [MikroOrmModule.forFeature({ entities: [Client] })],
   controllers: [ClientController],
   providers: [ClientService],
+  exports: [ClientService],
 })
 export class ClientModule {}

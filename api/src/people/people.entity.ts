@@ -2,7 +2,7 @@ import { PrimaryKey, Property } from '@mikro-orm/core';
 import { CreatePeopleDto } from './dto';
 export abstract class People {
   @PrimaryKey()
-  peopleId: number;
+  peopleId!: number;
 
   @Property()
   firstname!: string;
@@ -20,7 +20,7 @@ export abstract class People {
   phoneNumber?: string;
 
   @Property()
-  creationDate = new Date();
+  creationDate: Date;
 
   @Property({ type: 'text' })
   description?: string; // to describe the person's skills

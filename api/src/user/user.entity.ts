@@ -15,6 +15,9 @@ export class User extends People {
   @Property({ type: 'text', hidden: true })
   password?: string;
 
+  @Property({ hidden: true })
+  lastLogin?: number;
+
   // Users collection has Role in it : 1,n user(s) has 1,n role(s)
   @ManyToMany(() => Role, (role) => role.users, { owner: true })
   roles = new Collection<Role>(this);

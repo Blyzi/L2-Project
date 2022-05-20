@@ -10,6 +10,22 @@ interface Config {
   };
   api: {
     port: number;
+    nodeEnv: string;
+  };
+  websiteUrl: string;
+  jwt: {
+    accessSecret: string;
+    accessTokenExpirationTime: number;
+    refreshSecret: string;
+    refreshTokenExpirationTime: number;
+  };
+  cookie: {
+    secret: string;
+  };
+  redis: {
+    host: string;
+    port: number;
+    password: string;
   };
 }
 
@@ -48,6 +64,65 @@ export const config = createProfiguration<Config>(
         default: 3000,
         format: Number,
         env: 'API_PORT',
+      },
+      nodeEnv: {
+        default: 'dev',
+        env: 'NODE_ENV',
+        format: String,
+      },
+    },
+    websiteUrl: {
+      default: 'http://localhost:3000',
+      format: String,
+      env: 'WEBSITE_URL',
+    },
+    cookie: {
+      secret: {
+        default:
+          'very_very_very_very_very_very_very_very_very_very_very_very_long_secret_key',
+        format: String,
+        env: 'COOKIE_SECRET',
+      },
+    },
+    jwt: {
+      accessSecret: {
+        default:
+          'very_very_very_very_very_very_very_very_very_very_very_very_long_secret_key',
+        format: String,
+        env: 'JWT_ACCESS_SECRET',
+      },
+      accessTokenExpirationTime: {
+        default: 3600,
+        format: Number,
+        env: 'JWT_ACCES_TOKEN_EXPIRATION_TIME',
+      },
+      refreshSecret: {
+        default:
+          'very_very_very_very_very_very_very_very_very_very_very_very_long_secret_key',
+        format: String,
+        env: 'JWT_REFRESH_SECRET',
+      },
+      refreshTokenExpirationTime: {
+        default: 86400,
+        format: Number,
+        env: 'JWT_REFRESH_TOKEN_EXPIRATION_TIME',
+      },
+    },
+    redis: {
+      host: {
+        default: 'localhost',
+        format: String,
+        env: 'REDIS_HOST',
+      },
+      port: {
+        default: 6379,
+        format: Number,
+        env: 'REDIS_PORT',
+      },
+      password: {
+        default: '',
+        format: String,
+        env: 'REDIS_PASSWORD',
       },
     },
   },

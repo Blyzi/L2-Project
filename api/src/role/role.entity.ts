@@ -1,10 +1,16 @@
 import { Entity, PrimaryKey, Property, ManyToMany } from '@mikro-orm/core';
 import { User } from '../user/user.entity';
+import { CreateRoleDto } from './dto/create-role.dto';
 
 @Entity()
 export class Role {
+  constructor(dto: CreateRoleDto) {
+    this.title = dto.title;
+    this.permissions = dto.permissions;
+  }
+
   @PrimaryKey()
-  roleId: number;
+  roleId!: number;
 
   @Property({ type: 'text', length: 50 })
   title!: string;

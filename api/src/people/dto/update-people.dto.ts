@@ -13,19 +13,19 @@ export class UpdatePeopleDto {
   @IsNotEmpty()
   @IsEmail()
   @IsOptional()
-  readonly mail: string;
+  readonly mail?: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
   @IsOptional()
-  readonly firstname: string;
+  readonly firstname?: string;
 
   @IsString()
   @IsNotEmpty()
   @MaxLength(50)
   @IsOptional()
-  readonly lastname: string;
+  readonly lastname?: string;
 
   @IsDate()
   @IsOptional()
