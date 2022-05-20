@@ -7,30 +7,39 @@
                 <img class="h-10" src="@/assets/img/logo/logo.svg" />
                 <div class="text-3xl font-medium">Login</div>
             </div>
-
-            <TextInput
-                v-model="usernameInput"
-                class="w-full"
-                placeholder="Email"
-                inputType="email"
-            ></TextInput>
-            <TextInput
-                v-model="passwordInput"
-                class="w-full"
-                placeholder="Password"
-                input-type="password"
-            ></TextInput>
-            <div class="flex justify-between text-sm mb-4">
-                <label
-                    class="flex items-center gap-2 cursor-pointer hover:underline"
-                    ><input type="checkbox" /> Se souvenir de moi</label
-                >
-                <div class="cursor-pointer hover:underline">
-                    Mot de passe oublié ?
+            <form class="flex flex-col gap-2">
+                <TextInput
+                    v-model="usernameInput"
+                    class="w-full"
+                    placeholder="Email"
+                    input-type="email"
+                    :error="error"
+                    @update:model-value="error = false"
+                ></TextInput>
+                <TextInput
+                    v-model="passwordInput"
+                    class="w-full"
+                    placeholder="Password"
+                    input-type="password"
+                    error-message="Invalid login or password"
+                    :error="error"
+                    @update:model-value="error = false"
+                ></TextInput>
+                <div class="flex justify-between text-sm mb-4 px-1">
+                    <label
+                        class="flex items-center gap-2 cursor-pointer hover:underline"
+                        ><input type="checkbox" class="cursor-pointer" /> Se
+                        souvenir de moi
+                    </label>
+                    <div class="cursor-pointer hover:underline">
+                        Mot de passe oublié ?
+                    </div>
                 </div>
-            </div>
 
-            <div class="btn-primary w-full">Login</div>
+                <button class="btn-primary w-full" @click.prevent="login">
+                    Login
+                </button>
+            </form>
             <div class="flex divide-x text-sm mx-auto">
                 <router-link
                     class="px-2 cursor-pointer hover:underline"
@@ -49,7 +58,22 @@
 <script setup>
 import TextInput from '@/components/Inputs/TextInput.vue'
 import { ref } from 'vue'
+import { useUserStore } from '@/stores/users.store'
+import { useRouter } from 'vue-router'
+
+const userStore = useUserStore()
+
+const router = useRouter()
 
 const usernameInput = ref('')
 const passwordInput = ref('')
+const error = ref(false)
+
+const login = async () => {
+    if (await userStore.login(usernameInput.value, passwordInput.value)) {
+        router.push('calendar')
+    } else {
+        error.value = true
+    }
+}
 </script>

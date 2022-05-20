@@ -1,67 +1,92 @@
 <template>
-    <div
-        class="m-1 relative rounded-lg outline outline-1 flex items-center justify-between cursor-text"
-        :class="{ 'outline-blue-500 outline-2': isFocused }"
-        @click="input.focus()"
-    >
-        <div v-if="placeholder" class="absolute flex items-center">
+    <div>
+        <div
+            class="relative rounded-lg outline outline-1 flex items-center justify-between cursor-text"
+            :class="{
+                'outline-blue-500 ': !error && isFocused,
+                'outline-red-500': error,
+                'outline-2': isFocused,
+            }"
+            @click="input.focus()"
+        >
+            <div v-if="placeholder" class="absolute flex items-center">
+                <div
+                    class="transition-all rounded-full my-2 px-4"
+                    :class="[
+                        isFocused || modelValue.length
+                            ? 'translate-x-2 -translate-y-6 bg-white text-xs '
+                            : 'translate-x-0 translate-y-0 text-base',
+                        ,
+                        { 'text-blue-500': isFocused && !error },
+                        { 'text-red-500': error },
+                    ]"
+                >
+                    {{ placeholder }}
+                </div>
+            </div>
+            <input
+                ref="input"
+                class="py-2 px-4 w-full outline-none"
+                :type="
+                    inputType == 'password'
+                        ? showPassword
+                            ? 'text'
+                            : 'password'
+                        : 'text'
+                "
+                :value="modelValue"
+                @focusin="isFocused = true"
+                @focusout="isFocused = false"
+                @input="$emit('update:modelValue', $event.target.value)"
+            />
             <div
-                class="transition-all rounded-full my-2 px-4"
-                :class="[
-                    isFocused || modelValue.length
-                        ? 'translate-x-2 -translate-y-6 bg-white text-xs '
-                        : 'translate-x-0 translate-y-0 text-base',
-                    ,
-                    { 'text-blue-500': isFocused },
-                ]"
+                v-if="inputType == 'password' && modelValue.length"
+                class="h-full flex justify-center items-center pr-4 cursor-pointer"
+                @click="showPassword = !showPassword"
             >
-                {{ placeholder }}
+                <EyeIcon
+                    v-if="showPassword"
+                    class="h-5"
+                    :class="{ 'text-red-500': error }"
+                ></EyeIcon>
+                <EyeOffIcon
+                    v-else
+                    class="h-5"
+                    :class="{ 'text-red-500': error }"
+                ></EyeOffIcon>
             </div>
         </div>
-        <input
-            ref="input"
-            class="py-2 pl-4 w-full outline-none"
-            :type="realInputType"
-            :value="modelValue"
-            @focusin="isFocused = true"
-            @focusout="isFocused = false"
-            @input="$emit('update:modelValue', $event.target.value)"
-        />
         <div
-            v-if="inputType == 'password' && modelValue.length"
-            class="h-full flex justify-center items-center px-4 cursor-pointer"
-            @click="seeValue = !seeValue"
+            class="flex gap-2 text-xs text-red-500 ml-4 mt-1 items-center"
+            :class="{ invisible: !error || errorMessage == null }"
         >
-            <EyeIcon v-if="seeValue" class="h-5"></EyeIcon>
-            <EyeOffIcon v-else class="h-5"></EyeOffIcon>
+            <ExclamationCircleIcon class="h-3"></ExclamationCircleIcon>
+            {{ errorMessage }}
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 //HeroIcons
-import { EyeIcon } from '@heroicons/vue/outline'
-import { EyeOffIcon } from '@heroicons/vue/outline'
+import {
+    EyeIcon,
+    EyeOffIcon,
+    ExclamationCircleIcon,
+} from '@heroicons/vue/outline'
 
-const props = defineProps({
+defineProps({
     modelValue: { type: String, required: true },
     placeholder: { type: String, default: null },
     inputType: { type: String, default: 'text' },
+    error: { type: Boolean, default: false },
+    errorMessage: { type: String, default: null },
 })
 
 defineEmits(['update:modelValue'])
 
 const input = ref(null)
 const isFocused = ref(false)
-const seeValue = ref(false)
-
-const realInputType = computed(() => {
-    console.log(props)
-    if (seeValue.value == true) {
-        return 'text'
-    }
-    return props.inputType.value
-})
+const showPassword = ref(false)
 </script>

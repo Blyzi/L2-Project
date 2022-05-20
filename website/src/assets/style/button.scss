@@ -4,5 +4,5 @@
 
 .btn-primary {
     @extend .btn-base;
-    @apply bg-blue-500 focus:bg-blue-800 hover:bg-blue-600  text-white;
+    @apply bg-blue-500 hover:bg-blue-600  text-white;
 }
