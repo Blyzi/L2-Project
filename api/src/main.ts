@@ -12,7 +12,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   //Security
-  app.use(cookieParser(config.get('cookie.secret')));
+  app.use(cookieParser(config.get<string>('cookie.secret')));
   //app.use(csurf({ cookie: true }));
   app.use(helmet());
 

@@ -7,6 +7,7 @@ import {
   CanActivate,
   ExecutionContext,
   ForbiddenException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
@@ -33,7 +34,7 @@ export class AuthGuard implements CanActivate {
   private async verifyToken(context, request): Promise<User> {
     const token = request?.signedCookies?.accessToken;
     if (!token) {
-      throw new ForbiddenException('Token is missing');
+      throw new UnauthorizedException('Token is missing');
     }
 
     if (
@@ -42,17 +43,17 @@ export class AuthGuard implements CanActivate {
         this.authService.getOptions('access'),
       ))
     ) {
-      throw new ForbiddenException('Token is invalid');
+      throw new UnauthorizedException('Token is invalid');
     }
     const payload = this.jwtService.decode(token) as { [key: string]: any };
 
     if (!payload) {
-      throw new ForbiddenException('Token is invalid');
+      throw new UnauthorizedException('Token is invalid');
     }
 
     const user = await this.userService.findOne(payload.sub);
     if (user.lastLogin !== payload.iat) {
-      throw new ForbiddenException('User already logged in');
+      throw new UnauthorizedException('User already logged in');
     }
 
     if (!this.checkClaims(context, user.roles)) {

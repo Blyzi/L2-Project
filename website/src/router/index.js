@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { $axios } from '../config/axios'
-import cookie from 'cookie'
+import { useAuthStore } from '../stores/auth.store'
+
 const routes = [
     {
         path: '/login',
@@ -42,19 +42,28 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-    console.log('➡️', to, from, 'Protected:', to.meta.requiresAuth)
+    const authStore = useAuthStore()
 
-    if (to.meta.requiresAuth) {
-        const cookies = cookie.parse(document.cookie)
-        if (
-            cookies.accessTokenExpirationTime < Date.now() &&
-            cookies.refreshTokenExpirationTime > Date.now()
-        ) {
-            await $axios.post('/auth/refresh')
-        } else if (cookies.accessTokenExpirationTime > Date.now()) {
-            router.push('/login')
-        }
+    console.log(
+        'Router 🛣️',
+        from.path,
+        '->',
+        to.path,
+        '\nProtected:',
+        to.meta.requiresAuth,
+        '\nLogged in:',
+        await authStore.isLoggedIn
+    )
+
+    if (to.meta.requiresAuth && !(await authStore.isLoggedIn())) {
+        return { name: 'login' }
     }
+
+    if (to.path === '/login') {
+        await authStore.logout()
+    }
+
+    return true
 })
 
 export default router

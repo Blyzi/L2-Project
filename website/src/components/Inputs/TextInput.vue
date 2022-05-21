@@ -35,6 +35,7 @@
                         : 'text'
                 "
                 :value="modelValue"
+                :autocomplete="autocomplete"
                 @focusin="isFocused = true"
                 @focusout="isFocused = false"
                 @input="$emit('update:modelValue', $event.target.value)"
@@ -82,6 +83,7 @@ defineProps({
     inputType: { type: String, default: 'text' },
     error: { type: Boolean, default: false },
     errorMessage: { type: String, default: null },
+    autocomplete: { type: String, default: null },
 })
 
 defineEmits(['update:modelValue'])

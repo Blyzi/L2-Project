@@ -22,7 +22,13 @@
 </template>
 
 <script setup>
-import { LogoutIcon, CalendarIcon } from '@heroicons/vue/outline'
+import {
+    LogoutIcon,
+    CalendarIcon,
+    UserGroupIcon,
+    CogIcon,
+    TruckIcon,
+} from '@heroicons/vue/outline'
 
 const routes = [
     {
@@ -31,7 +37,22 @@ const routes = [
         icon: CalendarIcon,
     },
     {
-        path: '/logout',
+        path: '/items',
+        name: 'Items',
+        icon: TruckIcon,
+    },
+    {
+        path: '/clients',
+        name: 'Clients',
+        icon: UserGroupIcon,
+    },
+    {
+        path: '/settings',
+        name: 'Settings',
+        icon: CogIcon,
+    },
+    {
+        path: '/login',
         name: 'Logout',
         icon: LogoutIcon,
     },

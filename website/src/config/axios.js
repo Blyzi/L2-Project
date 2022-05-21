@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useRouter } from 'vue-router'
-import cookie from 'cookie'
+import { useAuthStore } from '@/stores/auth.store'
 
 const router = useRouter()
 
@@ -10,26 +10,16 @@ const $axios = axios.create({
         'Content-Type': 'application/json',
     },
     withCredentials: true,
+    requiresAuth: true,
 })
 
-$axios.interceptors.request.use(
-    (config) => {
-        const cookies = cookie.parse(document.cookie)
-        if (
-            cookies.accessTokenExpirationTime < Date.now() &&
-            cookies.refreshTokenExpirationTime > Date.now()
-        ) {
-            return $axios.post('/auth/refresh')
-        } else if (cookies.accessTokenExpirationTime > Date.now()) {
-            router.push('/login')
-        }
-
-        return config
-    },
-    (error) => {
-        return Promise.reject(error)
+$axios.interceptors.request.use((config) => {
+    if (config.requiresAuth && !useAuthStore().isLoggedIn()) {
+        router.push('/login')
+        return false
     }
-)
+    return config
+})
 
 $axios.interceptors.response.use(
     (response) => {
@@ -37,11 +27,10 @@ $axios.interceptors.response.use(
         return response
     },
     (error) => {
-        console.log('😬', err)
-        if (error.response.status === 401) {
+        console.log('😬', error)
+        if (error.response.status === 403) {
             router.push('/login')
         }
-        console.log(error)
         return Promise.reject(error)
     }
 )

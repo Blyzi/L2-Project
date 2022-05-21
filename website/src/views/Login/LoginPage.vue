@@ -13,6 +13,7 @@
                     class="w-full"
                     placeholder="Email"
                     input-type="email"
+                    autocomplete="email"
                     :error="error"
                     @update:model-value="error = false"
                 ></TextInput>
@@ -22,6 +23,7 @@
                     placeholder="Password"
                     input-type="password"
                     error-message="Invalid login or password"
+                    autocomplete="current-password"
                     :error="error"
                     @update:model-value="error = false"
                 ></TextInput>
@@ -58,10 +60,10 @@
 <script setup>
 import TextInput from '@/components/Inputs/TextInput.vue'
 import { ref } from 'vue'
-import { useUserStore } from '@/stores/users.store'
+import { useAuthStore } from '@/stores/auth.store'
 import { useRouter } from 'vue-router'
 
-const userStore = useUserStore()
+const authStore = useAuthStore()
 
 const router = useRouter()
 
@@ -70,8 +72,8 @@ const passwordInput = ref('')
 const error = ref(false)
 
 const login = async () => {
-    if (await userStore.login(usernameInput.value, passwordInput.value)) {
-        router.push('calendar')
+    if (await authStore.login(usernameInput.value, passwordInput.value)) {
+        router.push('/calendar')
     } else {
         error.value = true
     }
