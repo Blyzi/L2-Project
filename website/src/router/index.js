@@ -33,6 +33,9 @@ const routes = [
             import(
                 /* webpackChunkName: "Calendar" */ '@/views/CalendarPage.vue'
             ),
+        meta: {
+            requiresAuth: true,
+        },
     },
 ]
 
