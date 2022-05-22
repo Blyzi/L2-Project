@@ -28,7 +28,6 @@ export const useAuthStore = defineStore('auth', {
         },
         async refreshToken() {
             await $axios.post('/auth/refresh', {}, { requiresAuth: false })
-            console.log('ok')
         },
         async logout() {
             await $axios
@@ -40,7 +39,6 @@ export const useAuthStore = defineStore('auth', {
         async isLoggedIn() {
             const cookies = cookie.parse(document.cookie)
             const now = dayjs().unix()
-            console.log(cookies)
             if (
                 typeof cookies.accessTokenExpirationTime === 'undefined' ||
                 typeof cookies.refreshTokenExpirationTime === 'undefined'

@@ -28,6 +28,7 @@ import {
     UserGroupIcon,
     CogIcon,
     TruckIcon,
+    UsersIcon,
 } from '@heroicons/vue/outline'
 
 const routes = [
@@ -45,6 +46,11 @@ const routes = [
         path: '/clients',
         name: 'Clients',
         icon: UserGroupIcon,
+    },
+    {
+        path: '/users',
+        name: 'Users',
+        icon: UsersIcon,
     },
     {
         path: '/settings',

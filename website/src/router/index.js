@@ -28,6 +28,14 @@ const routes = [
         },
     },
     {
+        path: '/users',
+        component: () =>
+            import(/* webpackChunkName: "Users" */ '@/views/UsersPage.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
         path: '/',
         component: () =>
             import(

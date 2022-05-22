@@ -1,7 +1,7 @@
 <template>
-    <div class="flex">
+    <div class="flex w-screen">
         <NavigationBar></NavigationBar>
-        <slot></slot>
+        <div class="p-4 w-9/12"><slot></slot></div>
     </div>
 </template>
 
