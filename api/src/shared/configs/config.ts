@@ -12,6 +12,12 @@ interface Config {
     port: number;
     nodeEnv: string;
   };
+  admin: {
+    mail: string;
+    password: string;
+    firstname: string;
+    lastname: string;
+  };
   websiteUrl: string;
   jwt: {
     accessSecret: string;
@@ -57,6 +63,28 @@ export const config = createProfiguration<Config>(
         default: 'admin',
         format: String,
         env: 'MIKRO_ORM_PASSWORD',
+      },
+    },
+    admin: {
+      mail: {
+        default: 'demo@demo.com',
+        format: String,
+        env: 'ADMIN_MAIL',
+      },
+      password: {
+        default: 'password1234',
+        format: String,
+        env: 'ADMIN_PASSWORD',
+      },
+      firstname: {
+        default: 'John',
+        format: String,
+        env: 'ADMIN_FIRSTNAME',
+      },
+      lastname: {
+        default: 'Doe',
+        format: String,
+        env: 'ADMIN_LASTNAME',
       },
     },
     api: {
