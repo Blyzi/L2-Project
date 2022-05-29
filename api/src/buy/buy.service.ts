@@ -55,10 +55,22 @@ export class BuyService {
   }
 
   public async update(buyId: number, dto: UpdateBuyDto): Promise<Buy> {
-    const buy = await this.buyRepository.findOneOrFail({ buyId });
-    wrap(buy).assign(dto);
-    await this.buyRepository.flush();
-    return buy;
+    if (
+      (await this.productService.findOne(dto.productId)).stock - dto.amount <
+      0
+    ) {
+      throw new BadRequestException('Stock Empty');
+    }
+
+    // Else if everything is good
+    else {
+      const buy = await this.buyRepository.findOneOrFail({ buyId });
+      buy.product.stock -= dto.amount; // a certain amount of item is sold so we remove them from the db
+      buy.sellPrice = dto.sellPrice;
+      wrap(buy).assign(dto);
+      await this.buyRepository.flush();
+      return buy;
+    }
   }
 
   public async delete(buyId: number): Promise<void> {
