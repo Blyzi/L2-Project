@@ -5,12 +5,4 @@ export class CreateUseDto {
   @IsNotEmpty()
   @IsPositive()
   readonly amount!: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  readonly eventId!: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  readonly itemId!: number;
 }

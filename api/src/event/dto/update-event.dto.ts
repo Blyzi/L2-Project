@@ -36,11 +36,11 @@ export class UpdateEventDto {
 
   @IsDate()
   @IsOptional()
-  readonly dateStart?: Date;
+  readonly start?: Date;
 
   @IsDate()
   @IsOptional()
-  readonly dateEnd?: Date;
+  readonly end?: Date;
 
   @IsString()
   @IsOptional()

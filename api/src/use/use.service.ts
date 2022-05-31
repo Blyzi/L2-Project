@@ -19,37 +19,23 @@ export class UseService {
     private readonly itemService: ItemService,
   ) {}
 
-  public async createUse(dto: CreateUseDto): Promise<Use> {
-    if ((await this.useRepository.count()) != 0) {
-      if (
-        await this.useRepository.findOne({
-          event: await this.eventService.findOne(dto.eventId),
-          item: await this.itemService.findOne(dto.itemId),
-        })
-      ) {
-        throw new ConflictException('Existing Relationship, try using Update');
-      } else {
-        if ((await this.verifUse(dto)) > dto.amount) {
-          const use = new Use(
-            dto,
-            await this.eventService.findOne(dto.eventId),
-            await this.itemService.findOne(dto.itemId),
-          );
-          await this.useRepository.persistAndFlush(use);
-          return use;
-        } else {
-          throw new ConflictException(
-            'Item Already Used by another Event : only ' +
-              (await this.verifUse(dto)) +
-              ' available',
-          );
-        }
-      }
+  public async createUse(
+    eventId: number,
+    itemId: number,
+    dto: CreateUseDto,
+  ): Promise<Use> {
+    if (
+      await this.useRepository.findOne({
+        event: await this.eventService.findOne(eventId),
+        item: await this.itemService.findOne(itemId),
+      })
+    ) {
+      throw new ConflictException('Existing Relationship, try using Update');
     } else {
       const use = new Use(
         dto,
-        await this.eventService.findOne(dto.eventId),
-        await this.itemService.findOne(dto.itemId),
+        await this.eventService.findOne(eventId),
+        await this.itemService.findOne(itemId),
       );
       await this.useRepository.persistAndFlush(use);
       return use;
@@ -76,23 +62,10 @@ export class UseService {
       event: await this.eventService.findOne(eventId),
       item: await this.itemService.findOne(itemId),
     });
-    if (use.amount > dto.amount) {
-      wrap(use).assign(dto);
-      await this.useRepository.flush();
-      return use;
-    } else {
-      if ((await this.verifUse(dto)) - use.amount > dto.amount) {
-        wrap(use).assign(dto);
-        await this.useRepository.flush();
-        return use;
-      } else {
-        throw new ConflictException(
-          'Item Already Used by another Event : only ' +
-            (await this.verifUse(dto)) +
-            ' available',
-        );
-      }
-    }
+
+    wrap(use).assign(dto as any);
+    await this.useRepository.flush();
+    return use;
   }
 
   public async delete(eventId: number, itemId: number): Promise<void> {
@@ -104,26 +77,25 @@ export class UseService {
     );
   }
 
-  public async verifUse(dto: CreateUseDto | UpdateUseDto): Promise<number> {
+  public async verifUse(
+    eventId: number,
+    itemId: number,
+    dto: CreateUseDto | UpdateUseDto,
+  ): Promise<number> {
     // If there already is an event using this item
     const listUses = await this.useRepository.find(
-      { item: await this.itemService.findOne(dto.itemId) },
+      { item: await this.itemService.findOne(itemId) },
       { populate: ['item'] },
     );
-    const dateStartNewEvent = (await this.eventService.findOne(dto.eventId))
-      .dateStart;
-    const dateEndNewEvent = (await this.eventService.findOne(dto.eventId))
-      .dateEnd;
-    let verif = (await this.itemService.findOne(dto.itemId)).stock;
+    const startNewEvent = (await this.eventService.findOne(eventId)).start;
+    const endNewEvent = (await this.eventService.findOne(eventId)).end;
+    let verif = (await this.itemService.findOne(itemId)).stock;
     for (const use of listUses) {
       if (
         !(
-          use.event.dateStart < dateStartNewEvent &&
-          use.event.dateEnd < dateStartNewEvent &&
-          !(
-            use.event.dateStart > dateEndNewEvent &&
-            use.event.dateEnd > dateEndNewEvent
-          )
+          use.event.start < startNewEvent &&
+          use.event.end < startNewEvent &&
+          !(use.event.start > endNewEvent && use.event.end > endNewEvent)
         )
       ) {
         verif -= use.amount;

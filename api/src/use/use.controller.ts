@@ -20,8 +20,12 @@ export class UseController {
   constructor(private useService: UseService) {}
 
   @Post()
-  create(@Body() use: CreateUseDto): Promise<Use> {
-    return this.useService.createUse(use);
+  create(
+    @Param('idEvent', ParseIntPipe) idEvent: number,
+    @Param('idItem', ParseIntPipe) idItem: number,
+    @Body() use: CreateUseDto,
+  ): Promise<Use> {
+    return this.useService.createUse(idEvent, idItem, use);
   }
 
   @Get(':idEvent/:idItem')

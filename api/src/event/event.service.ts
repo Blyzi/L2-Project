@@ -31,13 +31,10 @@ export class EventService {
     });
   }
 
-  public async findByDate(
-    EventDateStart: Date,
-    EventDateEnd: Date,
-  ): Promise<Event> {
+  public async findByDate(Eventstart: Date, Eventend: Date): Promise<Event> {
     return await this.eventRepository.findOneOrFail({
-      dateStart: EventDateStart,
-      dateEnd: EventDateEnd,
+      start: Eventstart,
+      end: Eventend,
     });
   }
 

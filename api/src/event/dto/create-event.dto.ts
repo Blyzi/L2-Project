@@ -35,11 +35,11 @@ export class CreateEventDto {
   readonly title: string;
 
   @IsDate()
-  readonly dateStart!: Date;
+  readonly start!: Date;
 
   @IsDate()
-  @ValidateIf((o) => o.dateEnd > o.dateStart)
-  readonly dateEnd!: Date;
+  @ValidateIf((o) => o.end > o.start)
+  readonly end!: Date;
 
   @IsString()
   @IsOptional()

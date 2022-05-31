@@ -10,14 +10,14 @@ import { User } from '../user/user.entity';
 import { Item } from '../item/item.entity';
 import { Client } from '../client/client.entity';
 import { CreateEventDto } from './dto';
-
+import * as dayjs from 'dayjs';
 @Entity()
 export class Event {
   constructor(dto: CreateEventDto) {
     this.title = dto.title;
     this.description = dto.description;
-    this.dateStart = dto.dateStart;
-    this.dateEnd = dto.dateEnd;
+    this.start = dto.start;
+    this.end = dto.end;
     this.color = dto.color;
   }
 
@@ -30,11 +30,15 @@ export class Event {
   @Property()
   description?: string;
 
-  @Property()
-  dateStart!: Date;
+  @Property({
+    serializer: (value) => dayjs(value).format('YYYY-MM-DD HH:mm:ss'),
+  })
+  start!: Date;
 
-  @Property()
-  dateEnd!: Date;
+  @Property({
+    serializer: (value) => dayjs(value).format('YYYY-MM-DD HH:mm:ss'),
+  })
+  end!: Date;
 
   @Property()
   color!: string;
