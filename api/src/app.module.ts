@@ -13,6 +13,7 @@ import { BuyModule } from './buy/buy.module';
 import { ThingTypeModule } from './thingType/thingtype.module';
 import { UseModule } from './use/use.module';
 import { ProductModule } from './product/product.module';
+import { RoleModule } from './role/role.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -28,6 +29,7 @@ import { AuthModule } from './auth/auth.module';
     ThingTypeModule,
     UseModule,
     ProductModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
