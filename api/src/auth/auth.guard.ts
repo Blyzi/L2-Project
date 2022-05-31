@@ -56,7 +56,7 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('User already logged in');
     }
 
-    if (!this.checkClaims(context, user.roles)) {
+    if (!this.checkClaims(context, user.role)) {
       throw new ForbiddenException('User does not have permissions');
     }
     return user;

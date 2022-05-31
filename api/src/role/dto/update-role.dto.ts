@@ -2,9 +2,11 @@ import {
   IsString,
   IsNotEmpty,
   MaxLength,
-  IsNumber,
+  ValidateNested,
   IsOptional,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+import { Permissions } from '../class/permissions';
 
 export class UpdateRoleDto {
   @IsString()
@@ -13,8 +15,8 @@ export class UpdateRoleDto {
   @IsOptional()
   readonly title?: string;
 
-  @IsNumber()
-  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => Permissions)
   @IsOptional()
-  permissions?: number; //TODO:mettre des contraintes aux permissions
+  readonly permissions?: Permissions;
 }

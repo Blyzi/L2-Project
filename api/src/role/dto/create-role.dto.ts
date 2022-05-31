@@ -1,4 +1,6 @@
-import { IsString, IsNotEmpty, MaxLength, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
+import { Permissions } from '../class/permissions';
+import { IsPermissions } from '../decorator/validator';
 
 export class CreateRoleDto {
   @IsString()
@@ -6,7 +8,6 @@ export class CreateRoleDto {
   @MaxLength(50)
   readonly title: string;
 
-  @IsNumber()
-  @IsNotEmpty()
-  permissions!: number; //TODO:mettre des contraintes aux permissions
+  @IsPermissions()
+  readonly permissions?: Permissions;
 }

@@ -1,4 +1,11 @@
-import { Entity, Property, ManyToMany, Collection } from '@mikro-orm/core';
+import {
+  Entity,
+  Property,
+  ManyToMany,
+  Collection,
+  ManyToOne,
+} from '@mikro-orm/core';
+
 import { Role } from '../role/role.entity';
 import { Team } from '../team/team.entity';
 import { Event } from '../event/event.entity';
@@ -18,9 +25,9 @@ export class User extends People {
   @Property({ hidden: true })
   lastLogin?: number;
 
-  // Users collection has Role in it : 1,n user(s) has 1,n role(s)
-  @ManyToMany(() => Role, (role) => role.users, { owner: true })
-  roles = new Collection<Role>(this);
+  // Users collection has Role in it : 1,n user(s) has 1 role
+  @ManyToOne()
+  role?: Role;
 
   // Users belongs to Team collection : 1,n user(s) belong(s) to 1,n team(s)
   @ManyToMany(() => Team, (team) => team.user)

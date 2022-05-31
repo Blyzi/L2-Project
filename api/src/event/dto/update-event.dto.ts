@@ -7,25 +7,7 @@ import {
   IsEnum,
 } from 'class-validator';
 
-enum colorEnum {
-  'red',
-  'orange',
-  'amber',
-  'yellow',
-  'lime',
-  'green',
-  'emerald',
-  'blue',
-  'teal',
-  'cyan',
-  'sky',
-  'indigo',
-  'violet',
-  'purple',
-  'fuchsia',
-  'pink',
-  'rose',
-}
+import { COLORS } from '../../shared/enum/Colors';
 
 export class UpdateEventDto {
   @IsString()
@@ -48,7 +30,7 @@ export class UpdateEventDto {
   readonly description?: string;
 
   @IsString()
-  @IsEnum(colorEnum)
+  @IsEnum(COLORS)
   @IsOptional()
-  readonly color? = colorEnum[8]; //teal is default value
+  readonly color? = COLORS[8]; //teal is default value
 }

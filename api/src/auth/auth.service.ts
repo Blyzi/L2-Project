@@ -28,7 +28,7 @@ export class AuthService {
 
     return {
       accessToken: await this.sign(
-        { sub: user.peopleId, roles: user?.roles },
+        { sub: user.peopleId, roles: user?.role },
         this.getOptions('access'),
         loginDate.unix(),
       ),
