@@ -6,7 +6,7 @@ export const useUserStore = defineStore('user', {
         return { users: [] }
     },
     actions: {
-        async getUser() {
+        async getUsers() {
             await $axios.get('/user').then(({ data }) => (this.users = data))
         },
     },

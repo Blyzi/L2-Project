@@ -1,0 +1,10 @@
+.pop-up-enter-active,
+.pop-up-leave-active {
+    transition: all 0.5s ease;
+}
+
+.pop-up-enter-from,
+.pop-up-leave-to {
+    transform: scale(0.8);
+    opacity: 0;
+}

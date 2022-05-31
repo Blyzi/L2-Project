@@ -36,6 +36,22 @@ const routes = [
         },
     },
     {
+        path: '/clients',
+        component: () =>
+            import(/* webpackChunkName: "Users" */ '@/views/ClientsPage.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/items',
+        component: () =>
+            import(/* webpackChunkName: "Users" */ '@/views/ItemsPage.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
         path: '/',
         component: () =>
             import(
@@ -63,7 +79,7 @@ router.beforeEach(async (to, from) => {
         '\nProtected:',
         to.meta.requiresAuth,
         '\nLogged in:',
-        await authStore.isLoggedIn
+        await authStore.isLoggedIn()
     )
 
     if (to.meta.requiresAuth && !(await authStore.isLoggedIn())) {

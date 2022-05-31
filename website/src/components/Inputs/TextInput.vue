@@ -28,11 +28,7 @@
                 ref="input"
                 class="py-2 px-4 w-full outline-none"
                 :type="
-                    inputType == 'password'
-                        ? showPassword
-                            ? 'text'
-                            : 'password'
-                        : 'text'
+                    inputType == 'password' && showPassword ? 'text' : inputType
                 "
                 :value="modelValue"
                 :autocomplete="autocomplete"
