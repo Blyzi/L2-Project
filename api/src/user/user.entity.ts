@@ -5,12 +5,13 @@ import {
   Collection,
   ManyToOne,
 } from '@mikro-orm/core';
+import * as bcrypt from 'bcrypt';
 
+// Custom Packages
 import { Role } from '../role/role.entity';
 import { Team } from '../team/team.entity';
 import { Event } from '../event/event.entity';
 import { People } from '../people/people.entity';
-import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto';
 
 @Entity()

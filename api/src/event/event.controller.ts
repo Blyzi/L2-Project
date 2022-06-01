@@ -14,7 +14,7 @@ import { EventService } from './event.service';
 import { CreateEventDto } from './dto';
 import { UpdateEventDto } from './dto';
 import { Event } from './event.entity';
-import { Auth } from 'src/auth/auth.decorator';
+import { Auth } from '../auth/auth.decorator';
 
 @Controller('event')
 export class EventController {

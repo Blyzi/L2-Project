@@ -5,12 +5,15 @@ import {
   ManyToMany,
   Collection,
 } from '@mikro-orm/core';
+import * as dayjs from 'dayjs';
+
+// Custom Packages
 import { Use } from '../use/use.entity';
 import { User } from '../user/user.entity';
 import { Item } from '../item/item.entity';
 import { Client } from '../client/client.entity';
 import { CreateEventDto } from './dto';
-import * as dayjs from 'dayjs';
+
 @Entity()
 export class Event {
   constructor(dto: CreateEventDto) {

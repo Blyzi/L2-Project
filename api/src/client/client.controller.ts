@@ -12,7 +12,7 @@ import { ClientService } from './client.service';
 import { CreateClientDto } from './dto';
 import { UpdateClientDto } from './dto';
 import { Client } from './client.entity';
-import { Auth } from 'src/auth/auth.decorator';
+import { Auth } from '../auth/auth.decorator';
 
 @Controller('client')
 export class ClientController {

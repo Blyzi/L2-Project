@@ -1,4 +1,6 @@
 import { PrimaryKey, Property } from '@mikro-orm/core';
+
+// Custom Packages
 import { CreatePeopleDto } from './dto';
 export abstract class People {
   @PrimaryKey()

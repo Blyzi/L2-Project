@@ -1,12 +1,10 @@
-/*
-https://docs.nestjs.com/providers#services
-*/
-
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import type { JwtSignOptions, JwtVerifyOptions } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
+
+// Custom Packages
 import { User } from '../user/user.entity';
 import { LoginDto } from './dto';
-import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { IResponseToken, IAccessToken } from './interface';
 import { config } from '../shared/configs/config';

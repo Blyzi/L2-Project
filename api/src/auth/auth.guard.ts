@@ -1,7 +1,3 @@
-/*
-https://docs.nestjs.com/guards#guards
-*/
-
 import {
   Injectable,
   CanActivate,
@@ -9,12 +5,14 @@ import {
   ForbiddenException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { AuthService } from './auth.service';
-import { User } from 'src/user/user.entity';
 import { Reflector } from '@nestjs/core';
-import { ACTIONS } from 'src/shared/enum/Actions';
+
+// Custom Packages
+import { AuthService } from './auth.service';
+import { UserService } from '../user/user.service';
+import { User } from '../user/user.entity';
+import { ACTIONS } from '../shared/enum/Actions';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

@@ -5,9 +5,9 @@ import { EntityRepository } from '@mikro-orm/postgresql';
 
 // Custom Packages
 import { RoleModule } from '../role/role.module';
+import { Role } from '../role/role.entity';
 import { UserController } from './user.controller';
 import { User } from './user.entity';
-import { Role } from '../role/role.entity';
 import { UserService } from './user.service';
 import { config } from '../shared/configs/config';
 import { CreateUserDto } from './dto';

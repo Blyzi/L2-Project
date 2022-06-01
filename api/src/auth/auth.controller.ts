@@ -1,7 +1,3 @@
-/*
-https://docs.nestjs.com/controllers#controllers
-*/
-
 import {
   Body,
   Controller,
@@ -10,13 +6,14 @@ import {
   HttpCode,
   Request,
 } from '@nestjs/common';
-import { User } from '../user/user.entity';
+
+// Custom Packages
 import { AuthService } from './auth.service';
+import { User } from '../user/user.entity';
 import { LoginDto } from './dto';
 import { config } from '../shared/configs/config';
 import { Response as Res, Request as Req, CookieOptions } from 'express';
 import { Auth } from './auth.decorator';
-import { ACTIONS } from 'src/shared/enum/Actions';
 
 @Controller('auth')
 export class AuthController {

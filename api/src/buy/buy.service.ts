@@ -7,8 +7,8 @@ import { wrap } from '@mikro-orm/core';
 import { CreateBuyDto } from './dto';
 import { UpdateBuyDto } from './dto';
 import { Buy } from './buy.entity';
-import { ClientService } from 'src/client/client.service';
-import { ProductService } from 'src/product/product.service';
+import { ClientService } from '../client/client.service';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class BuyService {

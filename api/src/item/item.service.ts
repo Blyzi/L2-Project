@@ -7,7 +7,7 @@ import { wrap } from '@mikro-orm/core';
 import { CreateItemDto } from './dto';
 import { UpdateItemDto } from './dto';
 import { Item } from './item.entity';
-import { ThingTypeService } from 'src/thingType/thingType.service';
+import { ThingTypeService } from '../thingType/thingType.service';
 
 @Injectable()
 export class ItemService {
