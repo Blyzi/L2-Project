@@ -23,7 +23,7 @@ import { Item } from 'src/item/item.entity';
 })
 export class UseModule {
   constructor(
-    private readonly clientService: EventService,
+    private readonly eventService: EventService,
     private readonly productService: ItemService,
   ) {}
 }

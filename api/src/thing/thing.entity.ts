@@ -1,4 +1,4 @@
-import { Property, PrimaryKey, ManyToOne } from '@mikro-orm/core';
+import { Property, PrimaryKey } from '@mikro-orm/core';
 import { CreateThingDto } from './dto';
 
 export abstract class Thing {

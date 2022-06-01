@@ -9,7 +9,6 @@ import { Permissions } from './class/permissions';
 @Entity()
 export class Role {
   constructor(dto: CreateRoleDto) {
-    console.log(dto.permissions);
     this.title = dto.title;
     this.permissions = dto.permissions;
     this.color = dto.color;

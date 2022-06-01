@@ -12,4 +12,6 @@ import { EventService } from './event.service';
   providers: [EventService],
   exports: [EventService],
 })
-export class EventModule {}
+export class EventModule {
+  constructor(private readonly eventService: EventService) {}
+}

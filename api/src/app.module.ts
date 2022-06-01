@@ -5,6 +5,8 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
+import { RoleModule } from './role/role.module';
+
 import { ClientModule } from './client/client.module';
 import { EventModule } from './event/event.module';
 import { ItemModule } from './item/item.module';
@@ -13,14 +15,13 @@ import { BuyModule } from './buy/buy.module';
 import { ThingTypeModule } from './thingType/thingtype.module';
 import { UseModule } from './use/use.module';
 import { ProductModule } from './product/product.module';
-import { RoleModule } from './role/role.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     MikroOrmModule.forRoot(),
+    RoleModule,
     AuthModule,
-    UserModule,
     ClientModule,
     EventModule,
     ItemModule,
@@ -29,7 +30,7 @@ import { AuthModule } from './auth/auth.module';
     ThingTypeModule,
     UseModule,
     ProductModule,
-    RoleModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

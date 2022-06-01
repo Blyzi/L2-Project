@@ -72,7 +72,7 @@ export const config = createProfiguration<Config>(
         env: 'ADMIN_MAIL',
       },
       password: {
-        default: 'password1234',
+        default: 'root',
         format: String,
         env: 'ADMIN_PASSWORD',
       },

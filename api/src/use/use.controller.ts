@@ -19,7 +19,7 @@ import { Use } from './use.entity';
 export class UseController {
   constructor(private useService: UseService) {}
 
-  @Post()
+  @Post(':idEvent/:idItem')
   create(
     @Param('idEvent', ParseIntPipe) idEvent: number,
     @Param('idItem', ParseIntPipe) idItem: number,
