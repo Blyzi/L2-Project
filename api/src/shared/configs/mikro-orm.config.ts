@@ -8,6 +8,7 @@ export default {
   metadataProvider: TsMorphMetadataProvider,
   debug: true,
   forceUtcTimezone: true,
+  allowGlobalContext: true,
   findOneOrFailHandler: (entityName: string) => {
     throw new NotFoundException(`${entityName} not found`);
   },

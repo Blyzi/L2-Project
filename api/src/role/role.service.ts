@@ -1,6 +1,6 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { wrap } from '@mikro-orm/core';
 
 //Custom Packages
@@ -16,6 +16,9 @@ export class RoleService {
   ) {}
 
   public async createRole(dto: CreateRoleDto): Promise<Role> {
+    if (await this.roleRepository.findOne({ title: dto.title })) {
+      throw new ConflictException('Role already exists');
+    }
     const role = new Role(dto);
     await this.roleRepository.persistAndFlush(role);
     return role;

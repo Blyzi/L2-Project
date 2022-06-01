@@ -16,4 +16,5 @@ export enum COLORS {
   'fuchsia',
   'pink',
   'rose',
+  'grey',
 }

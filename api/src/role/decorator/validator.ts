@@ -6,7 +6,7 @@ import {
 import { NotAcceptableException } from '@nestjs/common';
 
 // Custom Packages
-import { ACTIONS } from 'src/shared/enum/Actions';
+import { ACTIONS } from '../../shared/enum/Actions';
 import { Permissions } from '../class/permissions';
 
 export function IsPermissions(validationOptions?: ValidationOptions) {
