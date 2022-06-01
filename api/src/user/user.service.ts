@@ -1,15 +1,27 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import { Injectable, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  Inject,
+  forwardRef,
+} from '@nestjs/common';
 import { wrap } from '@mikro-orm/core';
-
-// Custom Packages
 import { CreateUserDto, UpdateUserDto } from './dto';
 import { User } from './user.entity';
+import { RoleService } from 'src/role/role.service';
+import { AuthService } from 'src/auth/auth.service';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Injectable()
 export class UserService {
   constructor(
+    @Inject(forwardRef(() => RoleService))
+    private readonly roleService: RoleService,
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
+    @Inject(forwardRef(() => AuthGuard))
+    private readonly authGuard: AuthGuard,
     @InjectRepository(User)
     private readonly userRepository: EntityRepository<User>,
   ) {}

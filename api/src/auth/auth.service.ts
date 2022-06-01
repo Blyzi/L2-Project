@@ -1,10 +1,16 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import type { JwtSignOptions, JwtVerifyOptions } from '@nestjs/jwt';
 import { JwtService } from '@nestjs/jwt';
 
 // Custom Packages
 import { User } from '../user/user.entity';
 import { LoginDto } from './dto';
+import { RoleService } from 'src/role/role.service';
 import { UserService } from '../user/user.service';
 import { IResponseToken, IAccessToken } from './interface';
 import { config } from '../shared/configs/config';
@@ -14,7 +20,10 @@ import { UpdateUserDto } from '../user/dto';
 @Injectable()
 export class AuthService {
   constructor(
+    @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
+    @Inject(forwardRef(() => RoleService))
+    private readonly roleService: RoleService,
     private readonly jwtService: JwtService,
   ) {}
 

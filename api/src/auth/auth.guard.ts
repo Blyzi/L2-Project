@@ -4,12 +4,15 @@ import {
   ExecutionContext,
   ForbiddenException,
   UnauthorizedException,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 
 // Custom Packages
 import { AuthService } from './auth.service';
+import { RoleService } from 'src/role/role.service';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
 import { ACTIONS } from '../shared/enum/Actions';
@@ -17,7 +20,10 @@ import { ACTIONS } from '../shared/enum/Actions';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
+    @Inject(forwardRef(() => UserService))
     private readonly userService: UserService,
+    @Inject(forwardRef(() => RoleService))
+    private readonly roleService: RoleService,
     private readonly authService: AuthService,
     private readonly jwtService: JwtService,
     private reflector: Reflector,

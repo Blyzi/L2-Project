@@ -1,5 +1,5 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { Module, OnModuleInit } from '@nestjs/common';
+import { forwardRef, Module, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
 
@@ -11,9 +11,14 @@ import { User } from './user.entity';
 import { UserService } from './user.service';
 import { config } from '../shared/configs/config';
 import { CreateUserDto } from './dto';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [MikroOrmModule.forFeature({ entities: [User, Role] }), RoleModule],
+  imports: [
+    MikroOrmModule.forFeature({ entities: [User, Role] }),
+    forwardRef(() => RoleModule),
+    forwardRef(() => AuthModule),
+  ],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],
