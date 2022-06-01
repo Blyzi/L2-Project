@@ -26,7 +26,6 @@ export class UserModule implements OnModuleInit {
     private readonly userRepository: EntityRepository<User>,
   ) {}
   public async onModuleInit(): Promise<void> {
-    console.log('User is initialized');
     if ((await this.userRepository.count()) === 0) {
       const adminUser = new User({
         firstname: config.get('admin.firstname'),
@@ -36,7 +35,6 @@ export class UserModule implements OnModuleInit {
       } as CreateUserDto);
       await adminUser.setPassword(config.get('admin.password'));
       adminUser.role = await this.roleRepository.findOne({ title: 'Admin' });
-      console.log(adminUser);
       await this.userRepository.persistAndFlush(adminUser);
     }
   }

@@ -5,19 +5,18 @@ import { Module } from '@nestjs/common';
 import { Item } from './item.entity';
 import { ItemController } from './item.controller';
 import { ItemService } from './item.service';
-import { ThingType } from 'src/thingType/thingType.entity';
-import { ThingTypeModule } from 'src/thingType/thingtype.module';
-import { ThingTypeService } from 'src/thingType/thingType.service';
+import { ThingType } from '../thingType/thingType.entity';
+import { ThingTypeModule } from '../thingType/thingtype.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
     MikroOrmModule.forFeature({ entities: [Item, ThingType] }),
     ThingTypeModule,
+    AuthModule,
   ],
   controllers: [ItemController],
   providers: [ItemService],
   exports: [ItemService],
 })
-export class ItemModule {
-  constructor(private readonly thingTypeService: ThingTypeService) {}
-}
+export class ItemModule {}

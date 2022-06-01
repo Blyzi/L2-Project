@@ -7,23 +7,18 @@ import { UseController } from './use.controller';
 import { Use } from './use.entity';
 import { EventModule } from 'src/event/event.module';
 import { Event } from 'src/event/event.entity';
-import { EventService } from 'src/event/event.service';
 import { ItemModule } from 'src/item/item.module';
-import { ItemService } from 'src/item/item.service';
 import { Item } from 'src/item/item.entity';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
     MikroOrmModule.forFeature({ entities: [Use, Event, Item] }),
     EventModule,
     ItemModule,
+    AuthModule,
   ],
   controllers: [UseController],
   providers: [UseService],
 })
-export class UseModule {
-  constructor(
-    private readonly eventService: EventService,
-    private readonly productService: ItemService,
-  ) {}
-}
+export class UseModule {}

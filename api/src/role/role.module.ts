@@ -21,7 +21,6 @@ export class RoleModule implements OnModuleInit {
     private readonly roleRepository: EntityRepository<Role>,
   ) {}
   public async onModuleInit(): Promise<void> {
-    console.log('Role is initialized');
     const counter = await this.roleRepository.count();
     if (counter === 0) {
       const adminRole = new Role({
