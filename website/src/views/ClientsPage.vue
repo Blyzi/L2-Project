@@ -5,8 +5,19 @@
             <div class="flex justify-between">
                 <SearchBar v-model="searchInput" class="w-1/2"></SearchBar>
                 <div
-                    @click=";(action = 'add'), (modalOpen = true)"
                     class="btn-primary flex items-center gap-1"
+                    @click="
+                        ;(action = 'add'),
+                            (modalOpen = true),
+                            (newClient = {
+                                firstname: '',
+                                lastname: '',
+                                mail: '',
+                                phoneNumber: '',
+                                description: '',
+                                birthDate: '',
+                            })
+                    "
                 >
                     Add new client
                     <PlusSmIcon class="h-5 stroke-1"></PlusSmIcon>
@@ -63,11 +74,18 @@
                                 }}
                             </td>
                             <td class="p-2 text-sm">
-                                {{
-                                    client.description
-                                        ? client.description
-                                        : '-'
-                                }}
+                                <div v-if="client.description">
+                                    <div
+                                        v-for="(
+                                            line, k
+                                        ) in client.description.split('\n')"
+                                        :key="k"
+                                    >
+                                        {{ line }}
+                                        <br />
+                                    </div>
+                                </div>
+                                <div v-else>-</div>
                             </td>
                             <td class="p-2 rounded-r">
                                 <div
@@ -77,25 +95,27 @@
                                         class="h-5 stroke-1 hover:text-blue-500 cursor-pointer"
                                         @click="
                                             ;(newClient = {
-                                                peopleId: client.peopleId,
-                                                firstname: client.firstname,
-                                                lastname: client.lastname,
-                                                mail: client.mail,
-                                                phoneNumber: client.phoneNumber,
-                                                birthDate: client.birthDate,
-                                                description: client.description,
+                                                peopleId: client?.peopleId,
+                                                firstname: client?.firstname,
+                                                lastname: client?.lastname,
+                                                mail: client?.mail,
+                                                phoneNumber:
+                                                    client?.phoneNumber,
+                                                birthDate: client?.birthDate,
+                                                description:
+                                                    client?.description,
                                             }),
                                                 (modalOpen = true),
                                                 (action = 'update')
                                         "
                                     ></PencilIcon>
                                     <TrashIcon
+                                        class="h-5 stroke-1 hover:text-red-500 cursor-pointer"
                                         @click="
                                             clientStore.deleteClient(
                                                 client.peopleId
                                             )
                                         "
-                                        class="h-5 stroke-1 hover:text-red-500 cursor-pointer"
                                     ></TrashIcon>
                                 </div>
                             </td>
@@ -116,18 +136,26 @@
                         placeholder="Nom"
                     ></TextInput>
                 </div>
-                <div class="flex gap-2">
-                    <TextInput
-                        v-model="newClient.mail"
-                        input-type="mail"
-                        placeholder="Email"
-                    ></TextInput>
-                    <TextInput
-                        v-model="newClient.phoneNumber"
-                        input-type="tel"
-                        placeholder="Tel"
-                    ></TextInput>
-                </div>
+                <TextInput
+                    v-model="newClient.mail"
+                    input-type="mail"
+                    placeholder="Email"
+                ></TextInput>
+                <TextInput
+                    v-model="newClient.phoneNumber"
+                    input-type="tel"
+                    placeholder="Tel"
+                ></TextInput>
+
+                <TextAeraInput
+                    v-model="newClient.description"
+                    placeholder="Description"
+                    :rows="3"
+                ></TextAeraInput>
+                <DateTimeInput
+                    v-model="newClient.birthDate"
+                    placeholder="Année de naissance"
+                ></DateTimeInput>
                 <div class="btn-primary" @click="actions[action]">Envoyer</div>
             </div>
         </AppModal>
@@ -143,6 +171,8 @@ import { ref } from 'vue'
 import dayjs from 'dayjs'
 import AppModal from '../components/App/AppModal.vue'
 import TextInput from '../components/Inputs/TextInput.vue'
+import TextAeraInput from '../components/Inputs/TextAeraInput.vue'
+import DateTimeInput from '../components/Inputs/DateTimeInput.vue'
 import _ from 'lodash'
 
 const clientStore = useClientStore()
@@ -156,6 +186,8 @@ const newClient = ref({
     lastname: '',
     mail: '',
     phoneNumber: '',
+    description: '',
+    birthDate: '',
 })
 
 const action = ref('')
@@ -169,6 +201,8 @@ const actions = {
             lastname: '',
             mail: '',
             phoneNumber: '',
+            description: '',
+            birthDate: '',
         }
     },
     update: () => {
@@ -182,6 +216,8 @@ const actions = {
             lastname: '',
             mail: '',
             phoneNumber: '',
+            description: '',
+            birthDate: '',
         }
     },
 }

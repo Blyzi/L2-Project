@@ -3,8 +3,8 @@
         <div class="flex flex-col h-full w-full">
             <div class="text-3xl font-bold mb-4">Calendar</div>
             <div class="flex flex-col gap-4 grow">
-                <div class="flex flex-col gap-2 w-full">
-                    <div class="flex justify-between gap-2 sm">
+                <div class="flex flex-col gap-2 w-full grow">
+                    <div class="flex justify-between gap-2">
                         <div class="flex gap-6 items-center">
                             <div
                                 class="btn-flat"
@@ -24,29 +24,38 @@
                                     @click="$refs.vuecal.next()"
                                 ></ChevronRightIcon>
                             </div>
+                            <div class="">
+                                {{ dayjs(selectedDate).format('ddd LL') }}
+                            </div>
                         </div>
-                        <div class="btn-flat flex divide-x divide-gray-400">
-                            <div @click="activeView = 'month'" class="p-1">
-                                Mois
+                        <div class="flex items-center gap-2">
+                            <div class="btn-flat flex divide-x divide-gray-400">
+                                <div class="px-2" @click="activeView = 'month'">
+                                    Mois
+                                </div>
+                                <div class="px-2" @click="activeView = 'week'">
+                                    Semaine
+                                </div>
+                                <div class="px-2" @click="activeView = 'day'">
+                                    Jour
+                                </div>
                             </div>
-                            <div @click="activeView = 'week'" class="p-1">
-                                Semaine
-                            </div>
-                            <div @click="activeView = 'day'" class="p-1">
-                                Jour
+                            <div class="btn-primary">
+                                <PlusIcon class="m-1 h-4 stroke-1"></PlusIcon>
                             </div>
                         </div>
                     </div>
                     <VueCal
                         ref="vuecal"
                         :events="eventStore.eventParse"
-                        class="vuecal--blue-theme"
+                        class="vuecal--blue-theme grow"
                         :="calendarConfig"
                         events-count-on-year-view
                         editable-events
                         hide-view-selector
                         hide-title-bar
                         :active-view="activeView"
+                        @view-change="selectedDate = $event.startDate"
                     >
                         <template #today-button>
                             <LocationMarkerIcon
@@ -63,20 +72,8 @@
                         </template>
                     </VueCal>
                 </div>
-
-                <div class="flex gap-4 grow">
-                    <div class="grow flex flex-col gap-2">
-                        <div class="text-lg font-bold">Assignés</div>
-                        <div class="flex flex-col"></div>
-                    </div>
-                    <div class="grow flex flex-col gap-2">
-                        <div class="text-lg font-bold">Items</div>
-                    </div>
-                </div>
             </div>
-            {{ eventStore.eventParse }}
         </div>
-        {{ calendarConfig }}
     </BasePage>
 </template>
 
@@ -91,8 +88,15 @@ import {
     LocationMarkerIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
+    PlusIcon,
 } from '@heroicons/vue/outline'
 import { ref } from 'vue'
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
+import 'dayjs/locale/fr'
+
+dayjs.locale('fr')
+dayjs.extend(localizedFormat)
 
 const eventStore = useEventStore()
 eventStore.getEvents()
@@ -115,4 +119,5 @@ const calendarConfig = {
 
 const activeView = ref('day')
 const vuecal = ref(null)
+const selectedDate = ref(new Date())
 </script>
