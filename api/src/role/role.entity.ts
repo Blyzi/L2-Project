@@ -12,6 +12,7 @@ export class Role {
     console.log(dto.permissions);
     this.title = dto.title;
     this.permissions = dto.permissions;
+    this.color = dto.color;
   }
 
   @PrimaryKey()
@@ -22,6 +23,9 @@ export class Role {
 
   @Property()
   permissions!: Permissions;
+
+  @Property()
+  color!: string;
 
   // Role belongs to Users collection : 1 role(s) belong(s) to 1,n user(s)
   @OneToMany(() => User, (user) => user.role)

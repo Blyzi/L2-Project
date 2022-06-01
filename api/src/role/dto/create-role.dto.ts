@@ -1,6 +1,9 @@
-import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
+import { IsString, IsNotEmpty, MaxLength, IsEnum } from 'class-validator';
+
+// Custom Packages
 import { Permissions } from '../class/permissions';
 import { IsPermissions } from '../decorator/validator';
+import { COLORS } from '../../shared/enum/Colors';
 
 export class CreateRoleDto {
   @IsString()
@@ -10,4 +13,8 @@ export class CreateRoleDto {
 
   @IsPermissions()
   readonly permissions?: Permissions;
+
+  @IsString()
+  @IsEnum(COLORS)
+  readonly color = COLORS[8]; //teal is default value
 }
