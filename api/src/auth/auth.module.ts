@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 
 // Custom Packages
@@ -7,6 +7,7 @@ import { AuthController } from './auth.controller';
 import { AuthGuard } from './auth.guard';
 import { UserModule } from '../user/user.module';
 
+@Global()
 @Module({
   imports: [UserModule, JwtModule.register({})],
   controllers: [AuthController],
