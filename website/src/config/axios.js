@@ -1,8 +1,6 @@
 import axios from 'axios'
-import { useRouter } from 'vue-router'
+import router from '@/router'
 import { useAuthStore } from '@/stores/auth.store'
-
-const router = useRouter()
 
 const $axios = axios.create({
     baseURL: 'http://localhost:5000/',
@@ -28,10 +26,10 @@ $axios.interceptors.response.use(
     },
     (error) => {
         console.log('😬', error)
-        if (error.response.status === 403) {
+        if (error.response.status === 401 || error.response.status === 403) {
             router.push('/login')
         }
-        return Promise.reject(error)
+        return false
     }
 )
 

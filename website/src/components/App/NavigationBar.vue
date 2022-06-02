@@ -11,12 +11,21 @@
         <router-link
             v-for="(route, i) in routes"
             :key="i"
-            class="flex items-center gap-2 rounded hover:bg-gray-100 p-2 mx-2"
+            class="flex justify-between items-center rounded hover:bg-gray-100 p-2 mx-2 group"
             :to="route.path"
             :class="{ 'text-blue-500': route.path === $route.path }"
         >
-            <component :is="route.icon" class="h-6"></component>
-            {{ route.name }}
+            <div class="flex gap-2">
+                <component :is="route.icon" class="h-6"></component>
+                {{ route.name }}
+            </div>
+            <router-link
+                v-if="route?.more"
+                class="hover:bg-gray-200 invisible group-hover:visible rounded-full p-1"
+                :to="route.more"
+            >
+                <PlusSmIcon class="h-5"></PlusSmIcon>
+            </router-link>
         </router-link>
     </div>
 </template>
@@ -29,6 +38,7 @@ import {
     CogIcon,
     TruckIcon,
     UsersIcon,
+    PlusSmIcon,
 } from '@heroicons/vue/outline'
 
 const routes = [
@@ -36,6 +46,7 @@ const routes = [
         path: '/calendar',
         name: 'Calendar',
         icon: CalendarIcon,
+        more: '/calendar/new',
     },
     {
         path: '/items',

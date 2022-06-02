@@ -46,17 +46,16 @@ export const useAuthStore = defineStore('auth', {
                 return false
             }
 
-            if (
-                cookies.accessTokenExpirationTime < now &&
-                cookies.refreshTokenExpirationTime > now
-            ) {
-                await this.refreshToken()
+            if (parseInt(cookies.accessTokenExpirationTime) > now) {
                 return true
-            } else if (cookies.accessTokenExpirationTime < now) {
-                return false
             }
 
-            return true
+            if (parseInt(cookies.refreshTokenExpirationTime) > now) {
+                await this.refreshToken()
+                return true
+            }
+
+            return false
         },
     },
     getters: {},

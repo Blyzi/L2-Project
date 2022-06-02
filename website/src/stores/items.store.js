@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { $axios } from '@/config/axios'
+import _ from 'lodash'
 
 export const useItemStore = defineStore('item', {
     state: () => {
@@ -17,12 +18,17 @@ export const useItemStore = defineStore('item', {
         },
 
         async updateItem(itemid, item) {
-            await $axios.patch(`/item/${itemid}`, item).then(({ data }) => {
-                Object.assign(
-                    this.items.find((item) => item.thingId === itemid),
-                    data
-                )
-            })
+            await $axios
+                .patch(`/item/${itemid}`, {
+                    ..._.omit(item, 'thingType'),
+                    thingTypeId: item?.thingType?.thingTypeId,
+                })
+                .then(({ data }) => {
+                    Object.assign(
+                        this.items.find((item) => item.thingId === itemid),
+                        data
+                    )
+                })
         },
 
         async deleteItem(itemid) {
@@ -31,7 +37,7 @@ export const useItemStore = defineStore('item', {
                 .then(
                     () =>
                         (this.items = this.items.filter(
-                            (item) => item.id !== itemid
+                            (item) => item.thingId !== itemid
                         ))
                 )
         },

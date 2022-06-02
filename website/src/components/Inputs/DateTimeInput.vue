@@ -26,7 +26,7 @@
             </div>
             <input
                 ref="input"
-                class="py-2 px-4 w-full outline-none"
+                class="py-2 px-4 w-full outline-none transition-opacity"
                 :class="{ 'opacity-0': !(isFocused || modelValue) }"
                 :type="inputType"
                 :value="modelValue"

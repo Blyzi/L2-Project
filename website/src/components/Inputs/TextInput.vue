@@ -74,7 +74,7 @@ import {
 } from '@heroicons/vue/outline'
 
 defineProps({
-    modelValue: { type: String, required: true },
+    modelValue: { type: [String, Number], required: true },
     placeholder: { type: String, default: null },
     inputType: { type: String, default: 'text' },
     error: { type: Boolean, default: false },

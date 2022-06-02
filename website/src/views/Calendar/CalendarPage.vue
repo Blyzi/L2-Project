@@ -49,7 +49,21 @@
                         ref="vuecal"
                         :events="eventStore.eventParse"
                         class="vuecal--blue-theme grow"
-                        :="calendarConfig"
+                        :="{
+                            locale: 'fr',
+                            'disable-views': ['years', 'year'],
+                            timeFrom: 8 * 60,
+                            timeTo: 22 * 60,
+                            editableEvents: {
+                                title: true,
+                                drag: true,
+                                resize: true,
+                                delete: true,
+                                create: true,
+                            },
+                            'today-button': true,
+                            'snap-to-time': 10,
+                        }"
                         events-count-on-year-view
                         editable-events
                         hide-view-selector
@@ -78,7 +92,7 @@
 </template>
 
 <script setup>
-import BasePage from '../components/App/BasePage.vue'
+import BasePage from '@/components/App/BasePage.vue'
 import VueCal from 'vue-cal'
 import 'vue-cal/dist/drag-and-drop.js'
 import 'vue-cal/dist/vuecal.css'
@@ -100,22 +114,6 @@ dayjs.extend(localizedFormat)
 
 const eventStore = useEventStore()
 eventStore.getEvents()
-
-const calendarConfig = {
-    locale: 'fr',
-    'disable-views': ['years', 'year'],
-    timeFrom: 8 * 60,
-    timeTo: 22 * 60,
-    editableEvents: {
-        title: true,
-        drag: true,
-        resize: true,
-        delete: true,
-        create: true,
-    },
-    'today-button': true,
-    'snap-to-time': 10,
-}
 
 const activeView = ref('day')
 const vuecal = ref(null)

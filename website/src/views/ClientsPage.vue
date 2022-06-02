@@ -6,18 +6,7 @@
                 <SearchBar v-model="searchInput" class="w-1/2"></SearchBar>
                 <div
                     class="btn-primary flex items-center gap-1"
-                    @click="
-                        ;(action = 'add'),
-                            (modalOpen = true),
-                            (newClient = {
-                                firstname: '',
-                                lastname: '',
-                                mail: '',
-                                phoneNumber: '',
-                                description: '',
-                                birthDate: '',
-                            })
-                    "
+                    @click=";(action = 'add'), (modalOpen = true)"
                 >
                     Add new client
                     <PlusSmIcon class="h-5 stroke-1"></PlusSmIcon>
@@ -94,18 +83,7 @@
                                     <PencilIcon
                                         class="h-5 stroke-1 hover:text-blue-500 cursor-pointer"
                                         @click="
-                                            ;(newClient = {
-                                                peopleId: client?.peopleId,
-                                                firstname: client?.firstname,
-                                                lastname: client?.lastname,
-                                                mail: client?.mail,
-                                                phoneNumber:
-                                                    client?.phoneNumber,
-                                                birthDate: client?.birthDate,
-                                                description:
-                                                    client?.description,
-                                            }),
-                                                (modalOpen = true),
+                                            ;(modalOpen = true),
                                                 (action = 'update')
                                         "
                                     ></PencilIcon>
@@ -124,7 +102,20 @@
                 </table>
             </div>
         </div>
-        <AppModal :is-open="modalOpen" @close-modal="modalOpen = false">
+        <AppModal
+            :is-open="modalOpen"
+            @close-modal="
+                ;(modalOpen = false),
+                    (newClient = {
+                        firstname: '',
+                        lastname: '',
+                        mail: '',
+                        phoneNumber: '',
+                        description: '',
+                        birthDate: '',
+                    })
+            "
+        >
             <div class="flex flex-col gap-2 justify-center p-4">
                 <div class="flex gap-2">
                     <TextInput

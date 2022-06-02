@@ -76,9 +76,6 @@
                 </table>
             </div>
         </div>
-        <AppModal :is-open="modalOpen" @close-modal="modalOpen = false">
-            <div>dqsdqsdqbshkdqskjj</div>
-        </AppModal>
     </BasePage>
 </template>
 
