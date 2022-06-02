@@ -5,6 +5,8 @@ import {
   IsDate,
   IsOptional,
   IsEnum,
+  IsArray,
+  IsNumber,
 } from 'class-validator';
 
 import { COLORS } from '../../shared/enum/Colors';
@@ -33,4 +35,14 @@ export class UpdateEventDto {
   @IsEnum(COLORS)
   @IsOptional()
   readonly color? = COLORS[8]; //teal is default value
+
+  @IsArray()
+  @IsOptional()
+  @IsNumber({}, { each: true })
+  readonly usersId: number[];
+
+  @IsArray()
+  @IsOptional()
+  @IsNumber({}, { each: true })
+  readonly clientsId: number[];
 }

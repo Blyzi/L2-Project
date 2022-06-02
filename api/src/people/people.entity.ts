@@ -16,7 +16,7 @@ export abstract class People {
   mail!: string;
 
   @Property({
-    serializer: (value) => dayjs(value).format('YYYY-MM-DD HH:mm:ss'),
+    serializer: (value) => dayjs(value).format('YYYY-MM-DD'),
   })
   birthDate?: Date;
 

@@ -5,10 +5,17 @@ import { Module } from '@nestjs/common';
 import { EventController } from './event.controller';
 import { Event } from './event.entity';
 import { EventService } from './event.service';
-import { AuthModule } from '../auth/auth.module';
+import { ClientModule } from 'src/client/client.module';
+import { ItemModule } from 'src/item/item.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
-  imports: [MikroOrmModule.forFeature({ entities: [Event] }), AuthModule],
+  imports: [
+    MikroOrmModule.forFeature({ entities: [Event] }),
+    UserModule,
+    ClientModule,
+    ItemModule,
+  ],
   controllers: [EventController],
   providers: [EventService],
   exports: [EventService],
