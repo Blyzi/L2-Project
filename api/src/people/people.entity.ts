@@ -1,5 +1,5 @@
 import { PrimaryKey, Property } from '@mikro-orm/core';
-
+import * as dayjs from 'dayjs';
 // Custom Packages
 import { CreatePeopleDto } from './dto';
 export abstract class People {
@@ -15,7 +15,9 @@ export abstract class People {
   @Property()
   mail!: string;
 
-  @Property()
+  @Property({
+    serializer: (value) => dayjs(value).format('YYYY-MM-DD HH:mm:ss'),
+  })
   birthDate?: Date;
 
   @Property()
