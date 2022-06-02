@@ -68,13 +68,14 @@ export class EventService {
     const event = await this.eventRepository.findOneOrFail({
       eventId,
     });
+    await event.users.init();
     if (typeof dto.usersId !== 'undefined') {
       event.users.removeAll();
       for (const userId of dto.usersId) {
         event.users.add(await this.userService.findOne(userId));
       }
     }
-
+    await event.clients.init();
     if (typeof dto.clientsId !== 'undefined') {
       event.clients.removeAll();
       for (const clientId of dto.clientsId) {
