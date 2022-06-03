@@ -65,7 +65,7 @@ const routes = [
         path: '/',
         component: () =>
             import(
-                /* webpackChunkName: "Calendar" */ '@/views/CalendarPage.vue'
+                /* webpackChunkName: "Login" */ '@/views/Login/LoginPage.vue'
             ),
         meta: {
             requiresAuth: true,

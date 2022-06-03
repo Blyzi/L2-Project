@@ -9,6 +9,21 @@ export const useEventStore = defineStore('event', {
         async getEvents() {
             await $axios.get('/event').then(({ data }) => (this.events = data))
         },
+        async createEvent(event) {
+            await $axios.post('/event', event).then(({ data }) => {
+                this.events.push(data)
+            })
+        },
+        async deleteEvent(eventid) {
+            await $axios
+                .delete(`/event/${eventid}`)
+                .then(
+                    () =>
+                        (this.events = this.events.filter(
+                            (event) => event.eventId !== eventid
+                        ))
+                )
+        },
     },
     getters: {
         eventParse: (state) => {

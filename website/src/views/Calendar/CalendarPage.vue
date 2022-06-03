@@ -40,9 +40,9 @@
                                     Jour
                                 </div>
                             </div>
-                            <div class="btn-primary">
+                            <router-link class="btn-primary" to="/calendar/new">
                                 <PlusIcon class="m-1 h-4 stroke-1"></PlusIcon>
-                            </div>
+                            </router-link>
                         </div>
                     </div>
                     <VueCal
@@ -59,7 +59,7 @@
                                 drag: true,
                                 resize: true,
                                 delete: true,
-                                create: true,
+                                create: false,
                             },
                             'today-button': true,
                             'snap-to-time': 10,
@@ -69,25 +69,51 @@
                         hide-view-selector
                         hide-title-bar
                         :active-view="activeView"
+                        :on-event-click="onEventClick"
                         @view-change="selectedDate = $event.startDate"
                     >
-                        <template #today-button>
-                            <LocationMarkerIcon
-                                class="h-5"
-                            ></LocationMarkerIcon>
-                        </template>
-                        <template #arrow-prev>
-                            <ChevronLeftIcon class="h-6"></ChevronLeftIcon>
-                        </template>
-                        <template #arrow-next>
-                            <ChevronRightIcon
-                                class="ml-2 h-6"
-                            ></ChevronRightIcon>
-                        </template>
                     </VueCal>
                 </div>
             </div>
         </div>
+        <AppModal :is-open="modalOpen" @closeModal="modalOpen = false">
+            <div class="flex flex-col gap-2">
+                <div class="text-3xl">
+                    {{ selectedEvent.title }}
+                </div>
+
+                <div>
+                    Début:
+                    {{ dayjs(selectedEvent.start).format('DD/MM/YYYY HH:mm') }}
+                </div>
+                <div>
+                    Fin:
+                    {{ dayjs(selectedEvent.start).format('DD/MM/YYYY HH:mm') }}
+                </div>
+                <div>
+                    Description:
+                    {{ selectedEvent.description }}
+                </div>
+                <div class="flex">
+                    <div class="flex flex-col w-1/2">
+                        <div class="text-xl">Users</div>
+                        <div v-for="(user, i) in selectedEvent.users" :key="i">
+                            {{ user.firstname }} {{ user.lastname }}
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <div class="text-xl">Clients</div>
+                        <div
+                            v-for="(client, i) in selectedEvent.clients"
+                            :key="i"
+                        >
+                            {{ client.firstname }} {{ client.lastname }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </AppModal>
+        {{ selectedEvent }}
     </BasePage>
 </template>
 
@@ -98,8 +124,8 @@ import 'vue-cal/dist/drag-and-drop.js'
 import 'vue-cal/dist/vuecal.css'
 import 'vue-cal/dist/i18n/fr.js'
 import { useEventStore } from '@/stores/event.store'
+import AppModal from '@/components/App/AppModal.vue'
 import {
-    LocationMarkerIcon,
     ChevronLeftIcon,
     ChevronRightIcon,
     PlusIcon,
@@ -118,4 +144,13 @@ eventStore.getEvents()
 const activeView = ref('day')
 const vuecal = ref(null)
 const selectedDate = ref(new Date())
+
+const modalOpen = ref(false)
+const selectedEvent = ref(null)
+
+const onEventClick = (event, e) => {
+    selectedEvent.value = event
+    modalOpen.value = true
+    e.stopPropagation()
+}
 </script>
