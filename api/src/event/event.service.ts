@@ -30,6 +30,12 @@ export class EventService {
       }
     }
 
+    if (typeof dto.itemsId !== 'undefined') {
+      for (const itemId of dto.itemsId) {
+        event.items.add(await this.itemService.findOne(itemId));
+      }
+    }
+
     if (typeof dto.clientsId !== 'undefined') {
       for (const clientId of dto.clientsId) {
         event.clients.add(await this.clientService.findOne(clientId));
@@ -73,6 +79,14 @@ export class EventService {
       event.users.removeAll();
       for (const userId of dto.usersId) {
         event.users.add(await this.userService.findOne(userId));
+      }
+    }
+    await event.items.init();
+    if (typeof dto.items !== 'undefined') {
+      event.items.removeAll();
+      for (const itemId in dto.items) {
+        if this.userService.
+        event.items.add(await this.itemService.findOne(itemId));
       }
     }
     await event.clients.init();

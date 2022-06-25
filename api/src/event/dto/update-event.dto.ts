@@ -44,5 +44,10 @@ export class UpdateEventDto {
   @IsArray()
   @IsOptional()
   @IsNumber({}, { each: true })
+  readonly items: number[];
+
+  @IsArray()
+  @IsOptional()
+  @IsNumber({}, { each: true })
   readonly clientsId: number[];
 }
