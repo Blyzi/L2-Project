@@ -33,7 +33,7 @@ export class UseService {
       throw new ConflictException('Existing Relationship, try using Update');
     } else {
       const use = new Use(
-        dto,
+        dto.amount,
         await this.eventService.findOne(eventId),
         await this.itemService.findOne(itemId),
       );

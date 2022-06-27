@@ -16,9 +16,9 @@ export class Use {
   @Property({ default: 1 })
   amount!: number;
 
-  constructor(dto: CreateUseDto, event: Event, item: Item) {
+  constructor(amount: number, event: Event, item: Item) {
     this.event = event;
     this.item = item;
-    this.amount = dto.amount;
+    this.amount = amount;
   }
 }

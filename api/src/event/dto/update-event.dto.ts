@@ -7,6 +7,7 @@ import {
   IsEnum,
   IsArray,
   IsNumber,
+  IsPositive,
 } from 'class-validator';
 
 import { COLORS } from '../../shared/enum/Colors';
@@ -47,6 +48,12 @@ export class UpdateEventDto {
     message: 'Invalid items',
   })
   readonly items?: { [key: string]: number };
+
+  @IsNumber()
+  @IsNotEmpty()
+  @IsPositive()
+  @IsOptional()
+  readonly amount!: number;
 
   @IsArray()
   @IsOptional()
