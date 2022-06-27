@@ -17,7 +17,7 @@ export class CreateEventDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
-  readonly title: string;
+  readonly title!: string;
 
   @IsDate()
   readonly start!: Date;
@@ -38,13 +38,13 @@ export class CreateEventDto {
   @IsArray()
   @IsOptional()
   @IsNumber({}, { each: true })
-  readonly usersId: number[];
+  readonly usersId?: number[];
 
   @IsOptional()
   @IsObjectOfPositiveInt({
     message: 'Invalid items',
   })
-  readonly items?: { [key: number]: number };
+  readonly items?: { [key: string]: number };
 
   @IsNumber()
   @IsNotEmpty()
@@ -54,5 +54,5 @@ export class CreateEventDto {
   @IsArray()
   @IsOptional()
   @IsNumber({}, { each: true })
-  readonly clientsId: number[];
+  readonly clientsId?: number[];
 }
