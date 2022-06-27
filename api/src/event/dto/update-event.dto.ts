@@ -10,6 +10,7 @@ import {
 } from 'class-validator';
 
 import { COLORS } from '../../shared/enum/Colors';
+import { IsObjectOfPositiveInt } from '../../shared/validators/IsObjectOfPositiveInt';
 
 export class UpdateEventDto {
   @IsString()
@@ -41,10 +42,11 @@ export class UpdateEventDto {
   @IsNumber({}, { each: true })
   readonly usersId: number[];
 
-  @IsArray()
   @IsOptional()
-  @IsNumber({}, { each: true })
-  readonly items: number[];
+  @IsObjectOfPositiveInt({
+    message: 'Invalid items',
+  })
+  readonly items?: { [key: string]: number };
 
   @IsArray()
   @IsOptional()

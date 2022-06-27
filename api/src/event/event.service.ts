@@ -1,6 +1,6 @@
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { wrap } from '@mikro-orm/core';
 
 //Custom Packages
@@ -30,9 +30,15 @@ export class EventService {
       }
     }
 
-    if (typeof dto.itemsId !== 'undefined') {
-      for (const itemId of dto.itemsId) {
-        event.items.add(await this.itemService.findOne(itemId));
+    if (typeof dto.items !== 'undefined') {
+      for (const itemId of Object.keys(dto.items)) {
+        // TODO: verif amount
+        if (
+          dto.items[+itemId] < (await this.itemService.findOne(+itemId)).stock
+        ) {
+          throw new BadRequestException('Stock Empty');
+        }
+        event.items.add(await this.itemService.findOne(+itemId));
       }
     }
 
@@ -84,9 +90,13 @@ export class EventService {
     await event.items.init();
     if (typeof dto.items !== 'undefined') {
       event.items.removeAll();
-      for (const itemId in dto.items) {
-        if this.userService.
-        event.items.add(await this.itemService.findOne(itemId));
+      for (const itemId of Object.keys(dto.items)) {
+        if (
+          dto.items[+itemId] < (await this.itemService.findOne(+itemId)).stock
+        ) {
+          throw new BadRequestException('Stock Empty');
+        }
+        event.items.add(await this.itemService.findOne(parseInt(itemId)));
       }
     }
     await event.clients.init();

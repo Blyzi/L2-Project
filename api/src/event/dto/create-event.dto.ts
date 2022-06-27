@@ -8,7 +8,6 @@ import {
   ValidateIf,
   IsArray,
   IsNumber,
-  IsObject,
 } from 'class-validator';
 import { IsObjectOfPositiveInt } from 'src/shared/validators/IsObjectOfPositiveInt';
 import { COLORS } from '../../shared/enum/Colors';
@@ -44,7 +43,7 @@ export class CreateEventDto {
   @IsObjectOfPositiveInt({
     message: 'Invalid items',
   })
-  readonly items: { [key: number]: number };
+  readonly items?: { [key: number]: number };
 
   @IsArray()
   @IsOptional()
