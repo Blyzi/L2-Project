@@ -83,6 +83,24 @@ export class EventService {
     });
   }
 
+  // find all events during a given period
+  public async findBetween(eventStart: Date, eventEnd: Date): Promise<Event[]> {
+    return await this.eventRepository.find(
+      {
+        $or: [
+          { start: { $gte: eventStart } },
+          { end: { $gte: eventStart } },
+          {
+            $and: [{ start: { $gt: eventEnd } }, { end: { $gte: eventEnd } }],
+          },
+        ],
+      },
+      {
+        populate: ['start', 'end'],
+      },
+    );
+  }
+
   public async update(eventId: number, dto: UpdateEventDto): Promise<Event> {
     const event = await this.eventRepository.findOneOrFail({
       eventId,
@@ -124,11 +142,33 @@ export class EventService {
     );
   }
 
-  /*public async findConflict(Eventstart: Date, Eventend: Date) {
-    // If there already is an event using this item
-    const listUses = await this.eventRepository.find(
-      { item: await this.itemService.findOne(itemId) },
-      { populate: ['item'] },
+  public async findConflict(
+    eventStart: Date,
+    eventEnd: Date,
+    itemId: number,
+  ): Promise<void> {
+    // If there already is an event using this item during this period
+    const listUses = await this.useRepository.find(
+      {
+        item: await this.itemService.findOne(itemId),
+        event: await this.findBetween(eventStart, eventEnd),
+      },
+      { populate: ['item', 'event'] },
     );
-  }*/
+    // create an array of objects that can be modified to not modify the events
+    let newListUses: { amount: number; start: Date; end: Date }[];
+    for (const use of listUses) {
+      const amount = use.item.stock;
+      const start = use.event.start;
+      const end = use.event.end;
+      newListUses.push({ amount, start, end });
+    }
+    // Array listing the total amount of items used at any time during the given period
+    let listTotalUses: { amount: number; start: Date; end: Date }[];
+    for (const use1 of newListUses) {
+      for (const use2 of listTotalUses) {
+        console.log('test');
+      }
+    }
+  }
 }
