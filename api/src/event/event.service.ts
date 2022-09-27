@@ -17,6 +17,7 @@ export class EventService {
   constructor(
     @InjectRepository(Event)
     private readonly eventRepository: EntityRepository<Event>,
+    @InjectRepository(Use)
     private readonly useRepository: EntityRepository<Use>,
     private readonly clientService: ClientService,
     private readonly itemService: ItemService,

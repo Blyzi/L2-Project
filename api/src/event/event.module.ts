@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 // Custom Packages
 import { EventController } from './event.controller';
 import { Event } from './event.entity';
+import { Use } from 'src/use/use.entity';
 import { EventService } from './event.service';
 import { ClientModule } from 'src/client/client.module';
 import { ItemModule } from 'src/item/item.module';
@@ -11,7 +12,7 @@ import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
-    MikroOrmModule.forFeature({ entities: [Event] }),
+    MikroOrmModule.forFeature({ entities: [Event, Use] }),
     UserModule,
     ClientModule,
     ItemModule,
